@@ -1,5 +1,5 @@
 <template>
   <div>
-    <h1>Hello world!</h1>
+    <h1 class="font-bold text-4xl">Домашняя страница</h1>
   </div>
 </template>

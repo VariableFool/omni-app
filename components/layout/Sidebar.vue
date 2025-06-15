@@ -6,21 +6,24 @@ defineProps<{
 const emit = defineEmits(['toggle']);
 
 const menu = [
-  { label: 'Главная', icon: 'lucide:home' },
-  { label: 'Новости', icon: 'lucide:rss' },
-  { label: 'Видео', icon: 'lucide:youtube' },
-  { label: 'Музыка', icon: 'lucide:music' },
-  { label: 'Сеть', icon: 'lucide:twitter' },
-  { label: 'О проекте', icon: 'lucide:info' },
+  { label: 'Главная', icon: 'lucide:home', to: '/' },
+  { label: 'Новости', icon: 'lucide:rss', to: '/news' },
+  { label: 'Видео', icon: 'lucide:youtube', to: '/videos' },
+  { label: 'Музыка', icon: 'lucide:music', to: '/music' },
+  { label: 'Сеть', icon: 'lucide:twitter', to: '/social' },
+  { label: 'О проекте', icon: 'lucide:info', to: '/about' },
 ];
 </script>
 
 <template>
   <aside
-    :class="[collapsed ? 'w-14' : 'w-48']"
-    class="bg-white h-screen border-r border-gray-300 transition-[width] duration-300 flex flex-col"
+    :class="collapsed ? 'w-14' : 'w-44'"
+    class="bg-white dark:bg-gray-900 dark:text-white h-screen border-r border-gray-300 dark:border-gray-600 transition-[width] flex flex-col"
   >
-    <button @click="emit('toggle')" class="cursor-pointer p-3.5 hover:bg-gray-100">
+    <button
+      @click="emit('toggle')"
+      class="cursor-pointer p-4 hover:bg-gray-100 dark:hover:bg-gray-800"
+    >
       <Icon
         :name="collapsed ? 'lucide:panel-right-close' : 'lucide:panel-left-close'"
         class="w-6 h-6"
@@ -28,11 +31,12 @@ const menu = [
     </button>
 
     <nav class="flex-1 space-y-1 px-2">
-      <div
+      <NuxtLink
         v-for="item in menu"
         :key="item.label"
-        class="cursor-pointer flex items-center space-x-3 rounded-lg hover:bg-gray-100"
-        :class="collapsed ? 'justify-center py-3' : 'px-4 py-2'"
+        :to="item.to"
+        class="cursor-pointer flex items-center space-x-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
+        :class="collapsed ? 'px-3 py-3' : 'px-3 py-2'"
       >
         <Icon :name="item.icon" />
         <span
@@ -42,7 +46,7 @@ const menu = [
         >
           {{ item.label }}
         </span>
-      </div>
+      </NuxtLink>
     </nav>
   </aside>
 </template>
