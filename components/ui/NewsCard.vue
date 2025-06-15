@@ -26,7 +26,8 @@ const imageLoaded = ref(false);
     class="max-w-5xl mb-4 p-4 flex flex-col justify-center gap-2 bg-white dark:bg-gray-700 rounded-2xl drop-shadow-lg"
   >
     <p
-      class="font-['Inter'] font-medium text-2xl text-gray-800 dark:text-sky-300 transition-colors duration-200"
+      @click="openLink(props.news.link)"
+      class="cursor-pointer font-['Inter'] font-medium text-2xl text-gray-800 dark:text-sky-300 transition-colors duration-200 hover:text-sky-500"
     >
       {{ news.title }}
     </p>

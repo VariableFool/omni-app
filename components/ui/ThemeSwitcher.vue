@@ -1,6 +1,6 @@
 <template>
   <button
-    class="cursor-pointer relative w-14 h-8 rounded-full bg-gray-300 outline-2 outline-transparent hover:outline-sky-500 dark:bg-gray-600 dark:hover:outline-sky-500 transition-colors"
+    class="cursor-pointer relative w-14 h-8 rounded-full bg-gray-300 outline-1 outline-transparent hover:outline-sky-500 dark:bg-gray-600 transition-colors"
     @click="toggleTheme"
   >
     <!-- Трек -->

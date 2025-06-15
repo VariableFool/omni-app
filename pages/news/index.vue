@@ -7,6 +7,7 @@ const newsChannels = ref({
   cybersport: true,
   lenta: false,
   tass: false,
+  ria: false,
 });
 
 function selectChannel(channel: keyof typeof newsChannels.value) {
@@ -35,14 +36,8 @@ const allCategories = computed(() => {
   return Array.from(categories);
 });
 
-const {
-  data: newsAll,
-  pending,
-  error,
-  execute,
-} = useFetch<NewsModel[]>(() => `http://localhost:4000/rss/${activeChannel.value}`);
-
 const selectedCategory = ref<string | null>(null);
+
 const filteredNews = computed(() => {
   if (!selectedCategory.value) return newsAll.value || [];
   return (newsAll.value || []).filter((news) => {
@@ -64,6 +59,32 @@ const filteredNews = computed(() => {
     return false;
   });
 });
+
+useHead(() => {
+  const baseTitle = 'Omni';
+
+  if (selectedCategory.value) {
+    return {
+      title: `${baseTitle} | ${activeChannel.value.toUpperCase()} - ${selectedCategory.value}`,
+    };
+  }
+
+  return {
+    title: `${baseTitle} | ${activeChannel.value.toUpperCase()}`,
+  };
+});
+
+const selectCategory = (category: string) => {
+  if (selectedCategory.value === category) return (selectedCategory.value = null);
+  selectedCategory.value = category;
+};
+
+const {
+  data: newsAll,
+  pending,
+  error,
+  execute,
+} = useFetch<NewsModel[]>(() => `https://omni-api.gghub.ru/rss/${activeChannel.value}`);
 </script>
 
 <template>
@@ -83,7 +104,7 @@ const filteredNews = computed(() => {
           active-variant="solid"
           size="xl"
           class="cursor-pointer"
-          >Cybersport.ru</UButton
+          ><img src="public/cybersport.ico" alt="icon" width="18" />Cybersport.ru</UButton
         >
         <UButton
           @click="selectChannel('lenta')"
@@ -94,7 +115,8 @@ const filteredNews = computed(() => {
           active-variant="solid"
           size="xl"
           class="cursor-pointer"
-          >Lenta.ru</UButton
+        >
+          <img src="public/lenta.ico" alt="icon" width="18" />Lenta.ru</UButton
         >
         <UButton
           @click="selectChannel('tass')"
@@ -105,7 +127,18 @@ const filteredNews = computed(() => {
           active-variant="solid"
           size="xl"
           class="cursor-pointer"
-          >TASS.ru</UButton
+          ><img src="public/tass.ico" alt="icon" width="18" />TASS.ru</UButton
+        >
+        <UButton
+          @click="selectChannel('ria')"
+          color="neutral"
+          variant="outline"
+          :active="newsChannels.ria"
+          active-color="secondary"
+          active-variant="solid"
+          size="xl"
+          class="cursor-pointer"
+          ><img src="public/ria.ico" alt="icon" width="18" />RIA.ru</UButton
         >
       </div>
       <div class="mt-2 flex justify-center">
@@ -125,7 +158,7 @@ const filteredNews = computed(() => {
             :variant="selectedCategory === category ? 'solid' : 'outline'"
             class="cursor-pointer"
             v-for="category in allCategories"
-            @click="selectedCategory = category"
+            @click="selectCategory(category)"
           >
             {{ category }}
           </UButton>
@@ -136,7 +169,18 @@ const filteredNews = computed(() => {
             :variant="selectedCategory === category ? 'solid' : 'outline'"
             class="cursor-pointer"
             v-for="category in allCategories"
-            @click="selectedCategory = category"
+            @click="selectCategory(category)"
+          >
+            {{ category }}
+          </UButton>
+        </div>
+        <div v-if="newsChannels.ria" class="max-w-5xl flex flex-wrap justify-center gap-2">
+          <UButton
+            color="secondary"
+            :variant="selectedCategory === category ? 'solid' : 'outline'"
+            class="cursor-pointer"
+            v-for="category in allCategories"
+            @click="selectCategory(category)"
           >
             {{ category }}
           </UButton>
@@ -145,7 +189,13 @@ const filteredNews = computed(() => {
     </div>
 
     <div v-if="!pending" class="mt-5 flex justify-center">
-      <UButton @click="execute()" class="cursor-pointer" size="md" color="info" variant="ghost"
+      <UButton
+        @click="execute()"
+        class="cursor-pointer"
+        size="md"
+        color="info"
+        variant="ghost"
+        icon="material-symbols:refresh"
         >Обновить</UButton
       >
     </div>
@@ -162,6 +212,10 @@ const filteredNews = computed(() => {
       </div>
 
       <div v-if="newsChannels.tass">
+        <NewsCard v-for="news in filteredNews" :news="news" />
+      </div>
+
+      <div v-if="newsChannels.ria">
         <NewsCard v-for="news in filteredNews" :news="news" />
       </div>
     </div>
