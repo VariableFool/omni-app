@@ -25,7 +25,7 @@ jobs:
       - name: Notify Telegram (Success)
         if: success()
         run: |
-          curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage \
+          curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage \
             -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
             -d text="✅ Деплой *OMNI-APP (frontend)* завершён успешно на сервере.\n\nGitHub Actions: ${{ github.workflow }}\nCommit: ${{ github.sha }}" \
             -d parse_mode=Markdown
@@ -33,7 +33,7 @@ jobs:
       - name: Notify Telegram (Failure)
         if: failure()
         run: |
-          curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage \
+          curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage \
             -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
             -d text="❌ Ошибка при деплое *OMNI-APP (frontend)*!\n\nПроверь GitHub Actions: ${{ github.workflow }}" \
             -d parse_mode=Markdown
