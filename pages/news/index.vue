@@ -61,16 +61,14 @@ const filteredNews = computed(() => {
 });
 
 useHead(() => {
-  const baseTitle = 'Omni';
-
   if (selectedCategory.value) {
     return {
-      title: `${baseTitle} | ${activeChannel.value.toUpperCase()} - ${selectedCategory.value}`,
+      title: ` News | ${activeChannel.value.toUpperCase()} - ${selectedCategory.value}`,
     };
   }
 
   return {
-    title: `${baseTitle} | ${activeChannel.value.toUpperCase()}`,
+    title: ` News | ${activeChannel.value.toUpperCase()}`,
   };
 });
 

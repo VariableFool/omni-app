@@ -1,4 +1,5 @@
 <script setup>
+useHead({ title: 'app' });
 const isSidebarCollapsed = ref(false);
 </script>
 

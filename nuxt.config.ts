@@ -14,6 +14,7 @@ export default defineNuxtConfig({
   app: {
     head: {
       title: 'Omni app',
+      titleTemplate: 'Omni %s',
       meta: [{ name: 'description', content: 'Все в одном...' }],
     },
   },
