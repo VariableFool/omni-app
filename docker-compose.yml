@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  omni-app:
+    container_name: omni-app
+    build: .
+    restart: always
+    ports:
+      - '3002:3000'
+    environment:
+      - NODE_ENV=production
