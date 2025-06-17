@@ -23,7 +23,7 @@ const imageLoaded = ref(false);
 
 <template>
   <div
-    class="max-w-5xl mb-4 p-4 flex flex-col justify-center gap-2 bg-white dark:bg-gray-700 rounded-2xl drop-shadow-lg"
+    class="max-w-4xl mb-4 p-4 flex flex-col justify-center gap-2 bg-white dark:bg-gray-700/50 rounded-2xl drop-shadow-lg"
   >
     <p
       @click="openLink(props.news.link)"

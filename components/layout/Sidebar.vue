@@ -18,11 +18,11 @@ const menu = [
 <template>
   <aside
     :class="collapsed ? 'w-14' : 'w-44'"
-    class="bg-white dark:bg-gray-900 dark:text-white h-auto border-r border-gray-300 dark:border-gray-600 transition-[width] flex flex-col"
+    class="fixed top-14 left-0 h-full bg-white dark:bg-gray-900 dark:text-white border-r border-gray-300 dark:border-gray-600 transition-[width] flex flex-col"
   >
     <button
       @click="emit('toggle')"
-      class="cursor-pointer p-4 hover:bg-gray-100 dark:hover:bg-gray-800"
+      class="cursor-pointer p-3.5 hover:bg-gray-100 dark:hover:bg-gray-800"
     >
       <Icon
         :name="collapsed ? 'lucide:panel-right-close' : 'lucide:panel-left-close'"

@@ -86,140 +86,142 @@ const {
 </script>
 
 <template>
-  <section class="w-full">
-    <h1 class="text-4xl font-bold mb-6 text-center text-sky-600 dark:text-sky-200">
-      Лента новостей
-    </h1>
+  <div>
+    <section class="w-6xl pt-4 bg-gray-200/60 dark:bg-gray-900/30">
+      <h1 class="text-4xl font-bold mb-6 text-center text-sky-600 dark:text-sky-200">
+        Лента новостей
+      </h1>
 
-    <div class="flex flex-col gap-2">
-      <div class="flex gap-2 justify-center">
-        <UButton
-          @click="selectChannel('cybersport')"
-          color="neutral"
-          variant="outline"
-          :active="newsChannels.cybersport"
-          active-color="secondary"
-          active-variant="solid"
-          size="xl"
-          class="cursor-pointer"
-          ><img src="public/cybersport.ico" alt="icon" width="18" />Cybersport.ru</UButton
-        >
-        <UButton
-          @click="selectChannel('lenta')"
-          color="neutral"
-          variant="outline"
-          :active="newsChannels.lenta"
-          active-color="secondary"
-          active-variant="solid"
-          size="xl"
-          class="cursor-pointer"
-        >
-          <img src="public/lenta.ico" alt="icon" width="18" />Lenta.ru</UButton
-        >
-        <UButton
-          @click="selectChannel('tass')"
-          color="neutral"
-          variant="outline"
-          :active="newsChannels.tass"
-          active-color="secondary"
-          active-variant="solid"
-          size="xl"
-          class="cursor-pointer"
-          ><img src="public/tass.ico" alt="icon" width="18" />TASS.ru</UButton
-        >
-        <UButton
-          @click="selectChannel('ria')"
-          color="neutral"
-          variant="outline"
-          :active="newsChannels.ria"
-          active-color="secondary"
-          active-variant="solid"
-          size="xl"
-          class="cursor-pointer"
-          ><img src="public/ria.ico" alt="icon" width="18" />RIA.ru</UButton
-        >
-      </div>
-      <div class="mt-2 flex justify-center">
-        <div v-if="newsChannels.cybersport" class="max-w-5xl flex flex-wrap justify-center gap-2">
+      <div class="flex flex-col gap-2">
+        <div class="flex gap-2 justify-center">
           <UButton
-            color="secondary"
+            @click="selectChannel('cybersport')"
+            color="neutral"
             variant="outline"
+            :active="newsChannels.cybersport"
+            active-color="secondary"
+            active-variant="solid"
+            size="xl"
             class="cursor-pointer"
-            v-for="category in allCategories"
+            ><img src="public/cybersport.ico" alt="icon" width="18" />Cybersport.ru</UButton
           >
-            {{ category }}
-          </UButton>
-        </div>
-        <div v-if="newsChannels.lenta" class="max-w-5xl flex flex-wrap justify-center gap-2">
           <UButton
-            color="secondary"
-            :variant="selectedCategory === category ? 'solid' : 'outline'"
+            @click="selectChannel('lenta')"
+            color="neutral"
+            variant="outline"
+            :active="newsChannels.lenta"
+            active-color="secondary"
+            active-variant="solid"
+            size="xl"
             class="cursor-pointer"
-            v-for="category in allCategories"
-            @click="selectCategory(category)"
           >
-            {{ category }}
-          </UButton>
-        </div>
-        <div v-if="newsChannels.tass" class="max-w-5xl flex flex-wrap justify-center gap-2">
+            <img src="public/lenta.ico" alt="icon" width="18" />Lenta.ru</UButton
+          >
           <UButton
-            color="secondary"
-            :variant="selectedCategory === category ? 'solid' : 'outline'"
+            @click="selectChannel('tass')"
+            color="neutral"
+            variant="outline"
+            :active="newsChannels.tass"
+            active-color="secondary"
+            active-variant="solid"
+            size="xl"
             class="cursor-pointer"
-            v-for="category in allCategories"
-            @click="selectCategory(category)"
+            ><img src="public/tass.ico" alt="icon" width="18" />TASS.ru</UButton
           >
-            {{ category }}
-          </UButton>
-        </div>
-        <div v-if="newsChannels.ria" class="max-w-5xl flex flex-wrap justify-center gap-2">
           <UButton
-            color="secondary"
-            :variant="selectedCategory === category ? 'solid' : 'outline'"
+            @click="selectChannel('ria')"
+            color="neutral"
+            variant="outline"
+            :active="newsChannels.ria"
+            active-color="secondary"
+            active-variant="solid"
+            size="xl"
             class="cursor-pointer"
-            v-for="category in allCategories"
-            @click="selectCategory(category)"
+            ><img src="public/ria.ico" alt="icon" width="18" />RIA.ru</UButton
           >
-            {{ category }}
-          </UButton>
+        </div>
+        <div class="mt-2 flex justify-center">
+          <div v-if="newsChannels.cybersport" class="max-w-5xl flex flex-wrap justify-center gap-2">
+            <UButton
+              color="secondary"
+              variant="outline"
+              class="cursor-pointer"
+              v-for="category in allCategories"
+            >
+              {{ category }}
+            </UButton>
+          </div>
+          <div v-if="newsChannels.lenta" class="max-w-5xl flex flex-wrap justify-center gap-2">
+            <UButton
+              color="secondary"
+              :variant="selectedCategory === category ? 'solid' : 'outline'"
+              class="cursor-pointer"
+              v-for="category in allCategories"
+              @click="selectCategory(category)"
+            >
+              {{ category }}
+            </UButton>
+          </div>
+          <div v-if="newsChannels.tass" class="max-w-5xl flex flex-wrap justify-center gap-2">
+            <UButton
+              color="secondary"
+              :variant="selectedCategory === category ? 'solid' : 'outline'"
+              class="cursor-pointer"
+              v-for="category in allCategories"
+              @click="selectCategory(category)"
+            >
+              {{ category }}
+            </UButton>
+          </div>
+          <div v-if="newsChannels.ria" class="max-w-5xl flex flex-wrap justify-center gap-2">
+            <UButton
+              color="secondary"
+              :variant="selectedCategory === category ? 'solid' : 'outline'"
+              class="cursor-pointer"
+              v-for="category in allCategories"
+              @click="selectCategory(category)"
+            >
+              {{ category }}
+            </UButton>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div v-if="!pending" class="mt-5 flex justify-center">
-      <UButton
-        @click="execute()"
-        class="cursor-pointer"
-        size="md"
-        color="info"
-        variant="ghost"
-        icon="material-symbols:refresh"
-        >Обновить</UButton
-      >
-    </div>
-
-    <LoadingSpinner v-if="pending" :message="'Загружаю новости...'" />
-
-    <div v-if="newsAll" class="my-4 flex flex-col items-center">
-      <div v-if="newsChannels.cybersport">
-        <NewsCard v-for="news in newsAll" :news="news" />
+      <div v-if="!pending" class="mt-5 flex justify-center">
+        <UButton
+          @click="execute()"
+          class="cursor-pointer"
+          size="md"
+          color="info"
+          variant="ghost"
+          icon="material-symbols:refresh"
+          >Обновить</UButton
+        >
       </div>
 
-      <div v-if="newsChannels.lenta">
-        <NewsCard v-for="news in filteredNews" :news="news" />
+      <LoadingSpinner v-if="pending" :message="'Загружаю новости...'" />
+
+      <div v-if="newsAll" class="my-4 flex flex-col items-center">
+        <div v-if="newsChannels.cybersport">
+          <NewsCard v-for="news in newsAll" :news="news" />
+        </div>
+
+        <div v-if="newsChannels.lenta">
+          <NewsCard v-for="news in filteredNews" :news="news" />
+        </div>
+
+        <div v-if="newsChannels.tass">
+          <NewsCard v-for="news in filteredNews" :news="news" />
+        </div>
+
+        <div v-if="newsChannels.ria">
+          <NewsCard v-for="news in filteredNews" :news="news" />
+        </div>
       </div>
 
-      <div v-if="newsChannels.tass">
-        <NewsCard v-for="news in filteredNews" :news="news" />
-      </div>
-
-      <div v-if="newsChannels.ria">
-        <NewsCard v-for="news in filteredNews" :news="news" />
-      </div>
-    </div>
-
-    <p v-if="error" class="text-center text-5xl text-red-500 mt-10">
-      Не удалось загрузить новости.
-    </p>
-  </section>
+      <p v-if="error" class="text-center text-5xl text-red-500 mt-10">
+        Не удалось загрузить новости.
+      </p>
+    </section>
+  </div>
 </template>
