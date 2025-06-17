@@ -35,3 +35,10 @@ The app is deployed to a private VPS using:
 
 > 🔄 Currently in progress — initial setup and CI/CD pipeline are complete.  
 > UI and features are being actively developed.
+
+### 🚀 Live development
+
+The project is auto-deployed on every push to the `main` branch.  
+You can always see the latest version live:
+
+🔗 [https://omni.gghub.ru](https://omni.gghub.ru)
