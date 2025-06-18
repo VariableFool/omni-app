@@ -2,7 +2,12 @@ name: Deploy Nuxt Frontend
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+    path-ignore:
+      - 'README.md'
+      - 'LICENSE'
+      - '.gitignore'
 
 jobs:
   deploy:
