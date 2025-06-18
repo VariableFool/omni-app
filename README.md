@@ -21,7 +21,6 @@ This is the frontend part of the Omni App — a Nuxt 3 SSR application, containe
 - [Docker](https://www.docker.com/)
 - [Docker Compose](https://docs.docker.com/compose/)
 - [GitHub Actions](https://github.com/features/actions)
-- [Nginx Proxy Manager](https://nginxproxymanager.com/)
 - [Telegram Bot API](https://core.telegram.org/bots/api) (уведомления)
 
 ---
