@@ -10,7 +10,7 @@ const isSidebarCollapsed = ref(false);
     <div class="flex-1 flex flex-col bg-gray-100 dark:bg-gray-800 dark:text-white">
       <AppHeader />
 
-      <main class="w-full h-full mt-14 flex flex-col items-center">
+      <main class="mt-14 flex flex-col items-center">
         <NuxtPage />
       </main>
     </div>

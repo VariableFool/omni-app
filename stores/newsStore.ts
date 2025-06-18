@@ -2,23 +2,31 @@ import { defineStore } from 'pinia';
 import type { NewsModel } from '@/types';
 
 export const useNewsStore = defineStore('newsStore', () => {
-  const newsByChannel = ref<Record<string, NewsModel[]>>({});
+  const allNews = reactive<Record<string, NewsModel[] | null>>({});
+  const loading = ref(false);
+  const error = ref();
 
-  function setNews(channel: string, news: NewsModel[]) {
-    newsByChannel.value[channel] = news;
-  }
-
-  function updateNews(channel: string, newItems: NewsModel[]) {
-    const existing = newsByChannel.value[channel] || [];
-    const existingLinks = new Set(existing.map((item) => item.link));
-    const fresh = newItems.filter((item) => !existingLinks.has(item.link));
-
-    newsByChannel.value[channel] = [...fresh, ...existing];
-  }
+  const fetchNews = async (channel: string, force = false) => {
+    if (!force && allNews[channel]) return;
+    try {
+      loading.value = true;
+      const data = await $fetch<NewsModel[]>(`https://omni-api.gghub.ru/rss/${channel}`);
+      allNews[channel] = data;
+    } catch (err) {
+      if (err instanceof Error) {
+        error.value = err;
+      } else {
+        console.error(err);
+      }
+    } finally {
+      loading.value = false;
+    }
+  };
 
   return {
-    newsByChannel,
-    setNews,
-    updateNews,
+    allNews,
+    loading,
+    error,
+    fetchNews,
   };
 });

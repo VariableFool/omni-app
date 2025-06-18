@@ -18,7 +18,7 @@ const menu = [
 <template>
   <aside
     :class="collapsed ? 'w-14' : 'w-44'"
-    class="fixed top-14 left-0 h-full bg-white dark:bg-gray-900 dark:text-white border-r border-gray-300 dark:border-gray-600 transition-[width] flex flex-col"
+    class="fixed top-14 left-0 h-full bg-white dark:bg-gray-900/60 dark:text-white border-r border-gray-300 dark:border-gray-700 transition-[width] flex flex-col"
   >
     <button
       @click="emit('toggle')"
