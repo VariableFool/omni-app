@@ -48,6 +48,10 @@ This is the frontend part of the Omni App — a Nuxt 3 SSR application, containe
 
 🔗 [https://omni.gghub.ru](https://omni.gghub.ru)
 
+## 💬 Отзывы и обсуждения
+
+Если у вас есть предложения, вопросы или вы хотите пообщаться — присоединяйтесь [Discussions](https://github.com/your-username/your-repo/discussions)!
+
 </details>
 
 ---
@@ -90,4 +94,6 @@ You can always see the latest version live:
 
 🔗 [https://omni.gghub.ru](https://omni.gghub.ru)
 
-тест деплой будет или нет...
+## 💬 Feedback & Discussions
+
+If you have suggestions, questions, or want to connect — join the [Discussions](https://github.com/your-username/your-repo/discussions)!
