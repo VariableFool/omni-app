@@ -1,10 +1,22 @@
 # Omni App (Frontend)
 
+## 🎯 Project Goal
+
+Omni App is a demo project built for portfolio purposes.
+It implements an advanced architecture of a Nuxt 3 SSR application, containerized with Docker and deployed automatically via GitHub Actions.
+The main goal is to showcase fullstack development skills, environment setup, and modern project organization.
+
 🚧 **Project is under active development**  
 This is the frontend part of the Omni App — a Nuxt 3 SSR application, containerized with Docker and deployed via GitHub Actions.
 
 <details>
   <summary>🇷🇺 Показать описание на русском</summary>
+
+## 🎯 Цель проекта
+
+Omni App — это демонстрационный проект, созданный для портфолио.  
+Он реализует продвинутую структуру Nuxt 3 SSR-приложения с Docker, CI/CD (GitHub Actions) и авторазвёртыванием на сервер.  
+Основная цель — показать навыки fullstack-разработки, настройки окружения и организации современного проекта.
 
 🚧 **Проект находится в активной разработке**  
 Это фронтенд-часть Omni App — SSR-приложение на Nuxt 3, контейнеризировано через Docker и развёртывается с помощью GitHub Actions.
