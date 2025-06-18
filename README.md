@@ -89,3 +89,5 @@ The project is auto-deployed on every push to the `main` branch.
 You can always see the latest version live:
 
 🔗 [https://omni.gghub.ru](https://omni.gghub.ru)
+
+тест деплой будет или нет...
