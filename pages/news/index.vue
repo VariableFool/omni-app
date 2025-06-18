@@ -37,7 +37,14 @@ onMounted(async () => {
     </div>
 
     <div class="mb-4 text-center">
-      <UButton variant="subtle" color="neutral" icon="tabler:refresh">Обновить</UButton>
+      <UButton
+        :disabled="loading"
+        @click="newsStore.fetchNews(activeChannel, true)"
+        variant="subtle"
+        color="neutral"
+        icon="tabler:refresh"
+        >{{ loading ? 'Обновление...' : 'Обновить' }}</UButton
+      >
     </div>
 
     <LoadingSpinner v-if="loading" :title="'Загружаю новости...'" />
