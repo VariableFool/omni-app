@@ -22,7 +22,7 @@ jobs:
           username: ${{ secrets.VPS_USERNAME }}
           key: ${{ secrets.VPS_KEY }}
           script: |
-            cd omni-app
+            cd frontend/omni-app
             git pull
             docker compose down
             docker compose up -d --build
