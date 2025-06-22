@@ -2,7 +2,12 @@
 const newsStore = useNewsStore();
 const { allNews, loading, error } = storeToRefs(newsStore);
 
-const channels = ['cybersport', 'ria', 'tass', 'lenta'] as const;
+const activeAllCahnnels = ref(false);
+const channels = computed(() =>
+  activeAllCahnnels.value
+    ? (['cybersport', 'ria', 'tass', 'lenta'] as const)
+    : (['cybersport'] as const),
+);
 
 const activeChannel = ref<'cybersport' | 'lenta' | 'ria' | 'tass'>('cybersport');
 
@@ -19,7 +24,7 @@ onMounted(async () => {
 
 <template>
   <div>
-    <div class="mx-auto my-4 flex justify-center gap-2">
+    <div class="mx-auto mt-4 flex justify-center items-center gap-2">
       <UButton
         v-for="channel in channels"
         :key="channel"
@@ -36,7 +41,15 @@ onMounted(async () => {
       </UButton>
     </div>
 
-    <div class="mb-4 text-center">
+    <div class="mb-4 flex flex-col items-center gap-4">
+      <UButton
+        variant="link"
+        color="info"
+        @click="activeAllCahnnels = activeAllCahnnels ? false : true"
+        >{{
+          activeAllCahnnels ? 'Скрыть все, кроме развлекательных' : 'Показать все каналы'
+        }}</UButton
+      >
       <UButton
         :disabled="loading"
         @click="newsStore.fetchNews(activeChannel, true)"

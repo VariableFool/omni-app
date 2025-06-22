@@ -1,10 +1,20 @@
+<script setup lang="ts">
+const devMode = ref(true);
+</script>
+
 <template>
   <header
-    class="fixed top-0 right-0 w-full bg-white dark:bg-gray-900 shadow px-4 py-3 flex items-center justify-between z-50"
+    class="fixed top-0 right-0 w-full bg-white dark:bg-gray-800 shadow px-4 py-3 flex items-center justify-between z-50"
   >
     <div class="flex justify-center items-center gap-3">
       <ThemeSwitcher />
       <h1 class="text-lg font-semibold">OMNI APP</h1>
+      <div v-if="devMode">
+        [
+        <span class="blinking-dot"></span>
+        <span> DEVELOPMENT IN PROGRESS</span>
+        ]
+      </div>
     </div>
 
     <div class="flex items-center gap-2">
@@ -13,3 +23,20 @@
     </div>
   </header>
 </template>
+
+<style scoped>
+.blinking-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: rgb(255, 0, 0);
+  animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+</style>

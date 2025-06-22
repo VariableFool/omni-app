@@ -44,7 +44,11 @@ const imageLoaded = ref(false);
 
     <p class="text-[18px] text-gray-800 dark:text-white">{{ news.description }}</p>
     <div class="mx-auto">
-      <UButton color="neutral" variant="outline" class="cursor-pointer" @click="openLink(news.link)"
+      <UButton
+        color="secondary"
+        variant="outline"
+        class="cursor-pointer"
+        @click="openLink(news.link)"
         >Перейти к чтению</UButton
       >
     </div>

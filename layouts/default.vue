@@ -4,15 +4,16 @@ const isSidebarCollapsed = ref(false);
 </script>
 
 <template>
-  <div class="flex min-h-screen">
+  <AppHeader />
+
+  <div class="fixed top-14 left-0">
     <Sidebar :collapsed="isSidebarCollapsed" @toggle="isSidebarCollapsed = !isSidebarCollapsed" />
+  </div>
 
-    <div class="flex-1 flex flex-col bg-gray-100 dark:bg-gray-800 dark:text-white">
-      <AppHeader />
-
-      <main class="mt-14 flex flex-col items-center">
-        <NuxtPage />
-      </main>
-    </div>
+  <div
+    class="mt-14 flex justify-center transition-all"
+    :class="isSidebarCollapsed ? 'ml-14' : 'ml-44'"
+  >
+    <NuxtPage />
   </div>
 </template>
