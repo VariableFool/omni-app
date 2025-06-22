@@ -5,11 +5,11 @@
 
 @layer base {
   body {
-    background-color: var(--color-gray-800);
     @apply text-gray-900;
   }
 
   .dark body {
+    background-color: var(--color-gray-800);
     @apply text-white;
   }
 }
