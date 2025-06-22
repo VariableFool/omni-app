@@ -4,7 +4,7 @@ const devMode = ref(true);
 
 <template>
   <header
-    class="fixed top-0 right-0 w-full bg-white dark:bg-gray-800 shadow px-4 py-3 flex items-center justify-between z-50"
+    class="fixed top-0 right-0 w-full bg-white dark:bg-gray-900 shadow px-4 py-3 flex items-center justify-between z-50"
   >
     <div class="flex justify-center items-center gap-3">
       <ThemeSwitcher />
