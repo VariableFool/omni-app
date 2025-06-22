@@ -4,7 +4,7 @@ const password = ref('');
 </script>
 
 <template>
-  <div class="m-2 w-full">
+  <div class="m-2">
     <div class="flex flex-col gap-4 items-center">
       <Icon name="lucide:twitter" size="48" class="text-sky-600 dark:text-sky-300" />
       <h1 class="text-xl text-sky-600 dark:text-sky-300 font-bold">Создать учетную запись</h1>
