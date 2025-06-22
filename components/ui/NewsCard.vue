@@ -23,15 +23,17 @@ const imageLoaded = ref(false);
 
 <template>
   <div
-    class="max-w-4xl mb-4 p-4 flex flex-col justify-center gap-2 bg-white dark:bg-gray-700/50 rounded-2xl drop-shadow-lg"
+    class="bg-white border-1 border-gray-200 dark:border-0 dark:bg-sky-200/10 m-2 sm:my-6 p-2 rounded-2xl flex flex-col gap-2 sm:max-w-3xl sm:p-4"
   >
-    <p
-      @click="openLink(props.news.link)"
-      class="cursor-pointer font-['Inter'] font-medium text-2xl text-gray-800 dark:text-sky-300 transition-colors duration-200 hover:text-sky-500"
+    <a
+      :href="props.news.link"
+      target="_blank"
+      title="Откроется в новой вкладке"
+      class="font-semibold text-lg sm:text-2xl text-gray-800 dark:text-sky-100 sm:hover:text-sky-400 transition-all"
     >
       {{ news.title }}
-    </p>
-    <p class="text-gray-500 dark:text-gray-300">{{ formatted }}</p>
+    </a>
+    <p class="text-sm sm:text-md text-gray-500 dark:text-gray-400">{{ formatted }}</p>
 
     <LoadingSpinner v-if="props.news.image && !imageLoaded" :message="'Загружаю картинку...'" />
     <NuxtImg
@@ -42,7 +44,9 @@ const imageLoaded = ref(false);
       class="rounded-2xl"
     />
 
-    <p class="text-[18px] text-gray-800 dark:text-white">{{ news.description }}</p>
+    <p class="text-sm sm:text-xl sm:font-light text-gray-800 dark:text-gray-100">
+      {{ news.description }}
+    </p>
     <div class="mx-auto">
       <UButton
         color="secondary"

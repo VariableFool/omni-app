@@ -4,7 +4,14 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-05-15',
   devtools: { enabled: false },
   css: ['~/assets/css/main.css'],
-  modules: ['@nuxt/icon', '@nuxtjs/tailwindcss', '@nuxt/ui', '@nuxt/image', '@pinia/nuxt'],
+  modules: [
+    '@nuxt/icon',
+    '@nuxtjs/tailwindcss',
+    '@nuxt/ui',
+    '@nuxt/image',
+    '@pinia/nuxt',
+    '@nuxtjs/device',
+  ],
   components: [
     {
       path: '~/components',

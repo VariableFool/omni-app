@@ -24,7 +24,7 @@ onMounted(async () => {
 
 <template>
   <div>
-    <div class="mx-auto mt-4 flex justify-center items-center gap-2">
+    <div class="mx-auto mt-4 flex flex-wrap justify-center items-center gap-2">
       <UButton
         v-for="channel in channels"
         :key="channel"
