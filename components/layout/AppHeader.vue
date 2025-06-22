@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const devMode = ref(true);
+const devMode = ref(false);
 </script>
 
 <template>
@@ -9,11 +9,19 @@ const devMode = ref(true);
     <div class="flex justify-center items-center gap-3">
       <ThemeSwitcher />
       <h1 class="text-lg font-semibold">OMNI APP</h1>
-      <div v-if="devMode">
-        [
-        <span class="blinking-dot"></span>
-        <span> DEVELOPMENT IN PROGRESS</span>
-        ]
+      <div>
+        <div v-if="devMode">
+          [
+          <span class="blinking-dot"></span>
+          <span> DEVELOPMENT IN PROGRESS 🛠️</span>
+          ]
+        </div>
+        <div v-else>
+          [
+          <span class="blinking-no-active-dot"></span>
+          <span> CONTINUATION TOMORROW 😴</span>
+          ]
+        </div>
       </div>
     </div>
 
@@ -38,5 +46,13 @@ const devMode = ref(true);
   50% {
     opacity: 0;
   }
+}
+
+.blinking-no-active-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: gray;
 }
 </style>
