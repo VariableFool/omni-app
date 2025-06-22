@@ -11,7 +11,7 @@ const isSidebarCollapsed = ref(false);
     <AppHeaderMobile />
   </div>
 
-  <div v-if="$device.isDesktop" class="fixed top-14 left-0 hidden md:block">
+  <div v-if="$device.isDesktop" class="fixed top-14 left-0">
     <Sidebar :collapsed="isSidebarCollapsed" @toggle="isSidebarCollapsed = !isSidebarCollapsed" />
   </div>
 
@@ -23,6 +23,8 @@ const isSidebarCollapsed = ref(false);
     class="sm:mt-14 flex justify-center transition-all"
     :class="isSidebarCollapsed ? 'sm:ml-14' : 'sm:ml-44'"
   >
-    <NuxtPage />
+    <div class="w-full max-w-[1920px]">
+      <NuxtPage />
+    </div>
   </div>
 </template>
