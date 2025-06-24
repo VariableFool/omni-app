@@ -11,6 +11,7 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@pinia/nuxt',
     '@nuxtjs/device',
+    '@vueuse/nuxt',
   ],
   components: [
     {

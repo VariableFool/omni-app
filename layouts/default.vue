@@ -1,6 +1,6 @@
 <script setup lang="ts">
 useHead({ title: 'app' });
-const isSidebarCollapsed = ref(false);
+const isSidebarCollapsed = ref(true);
 </script>
 
 <template>
