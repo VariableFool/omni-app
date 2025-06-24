@@ -6,9 +6,9 @@ const password = ref('');
 
 <template>
   <div
-    class="h-[calc(100vh-46px)] text-sky-600 dark:text-white flex flex-col items-center justify-center md:flex-row md:justify-between"
+    class="h-[calc(100vh-48px-72px)] text-sky-600 dark:text-white flex flex-col items-center justify-center md:flex-row md:justify-between"
   >
-    <div class="mb-4 md:mb-0 mx-auto">
+    <div class="mb-4 md:mb-0 mx-auto dark:text-sky-400">
       <UIcon name="lucide:twitter" size="20vw" />
     </div>
     <div class="w-[320px] md:min-w-[40vw] flex flex-col items-center md:items-baseline gap-2">
@@ -20,7 +20,7 @@ const password = ref('');
       >
       <span
         v-show="!isMobile && $device.isDesktop"
-        class="mb-8 font-bold text-2xl lg:text-3xl xl:text-4xl text-sky-800 dark:text-white"
+        class="mb-8 font-bold text-2xl lg:text-3xl xl:text-4xl dark:text-white"
       >
         Присоединяйтесь сегодня.
       </span>
@@ -71,7 +71,7 @@ const password = ref('');
       <UButton
         size="xl"
         variant="outline"
-        color="neutral"
+        color="secondary"
         class="w-[320px] rounded-full justify-center"
         >Войти</UButton
       >
