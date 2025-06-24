@@ -67,7 +67,7 @@ onMounted(async () => {
       :message="`Не удалось загрузить новости для: ${activeChannel.toUpperCase()}`"
     />
 
-    <div v-else>
+    <div v-else class="flex flex-col items-center">
       <NewsCard
         v-for="news in allNews[activeChannel]"
         :key="news.link"
