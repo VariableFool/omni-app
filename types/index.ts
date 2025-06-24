@@ -6,3 +6,11 @@ export interface NewsModel {
   description: string;
   image: string;
 }
+
+export type LoginResponse = {
+  token: string;
+  user: {
+    id: number;
+    email: string;
+  };
+};

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const devMode = ref(true);
+const devMode = ref(false);
 </script>
 
 <template>

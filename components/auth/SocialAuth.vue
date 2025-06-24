@@ -1,6 +1,9 @@
 <script setup lang="ts">
 const isMobile = useMediaQuery('(max-width: 768px)');
 const show = ref(false);
+
+const auth = useAuthStore();
+
 const password = ref('');
 </script>
 

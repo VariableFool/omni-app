@@ -1,8 +1,8 @@
 <script setup lang="ts">
-const isAuthenticated = ref(false);
+const auth = useAuthStore();
 </script>
 
 <template>
-  <slot v-if="isAuthenticated"></slot>
+  <slot v-if="auth.isAuthenticated"></slot>
   <SocialAuth v-else />
 </template>
