@@ -8,14 +8,14 @@ const password = ref('');
   <div
     class="h-[calc(100vh-48px-72px)] text-sky-600 dark:text-white flex flex-col items-center justify-center md:flex-row md:justify-between"
   >
-    <div class="mb-4 md:mb-0 mx-auto dark:text-sky-400">
+    <div class="mb-4 md:mb-0 mx-auto">
       <UIcon name="lucide:twitter" size="20vw" />
     </div>
     <div class="w-[320px] md:min-w-[40vw] flex flex-col items-center md:items-baseline gap-2">
       <span v-show="isMobile" class="mb-4 font-bold text-2xl">Создать учетную запись</span>
       <span
         v-show="!isMobile"
-        class="mb-14 font-bold break-all text-2xl sm:text-2xl/tight md:text-5xl/tight lg:text-6xl/tight xl:text-7xl/tight whitespace-pre-line"
+        class="mb-14 font-bold break-all text-2xl sm:text-2xl/tight md:text-5xl/tight lg:text-6xl/tight xl:text-6xl/tight 2xl:text-7xl/tight whitespace-pre-line"
         >{{ 'В курсе\nпроисходящего' }}</span
       >
       <span
