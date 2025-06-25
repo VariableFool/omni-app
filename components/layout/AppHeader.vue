@@ -25,9 +25,12 @@ const devMode = ref(true);
       </div>
     </div>
 
-    <div class="flex items-center gap-2">
+    <div
+      @click="navigateTo('/profile')"
+      class="py-1 px-2 flex items-center gap-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg"
+    >
       <Icon name="lucide:user" class="w-6 h-6" />
-      <span>Войти</span>
+      <span>Профиль</span>
     </div>
   </header>
 </template>
