@@ -4,6 +4,7 @@ const show = ref(false);
 
 const auth = useAuthStore();
 
+const email = ref('');
 const password = ref('');
 </script>
 
@@ -27,14 +28,18 @@ const password = ref('');
       >
         Присоединяйтесь сегодня.
       </span>
+      <span v-if="auth.error" class="text-red-400">{{ auth.error }}</span>
       <div class="mb-4 w-[320px] flex flex-col gap-2">
         <UInput
+          v-model="email"
           trailing-icon="i-lucide-at-sign"
           variant="outline"
           color="secondary"
           size="xl"
           class="w-full"
           placeholder="Введите email"
+          autocomplete="on"
+          name="email"
         />
         <UInput
           v-model="password"
@@ -59,6 +64,8 @@ const password = ref('');
         </UInput>
       </div>
       <UButton
+        @click="auth.register({ email: email, password: password })"
+        :loading="auth.isLoading"
         size="xl"
         variant="solid"
         color="secondary"
@@ -72,6 +79,8 @@ const password = ref('');
       </div>
       <span class="w-[320px] text-center font-bold">Уже зарегистрированы?</span>
       <UButton
+        @click="auth.login({ email: email, password: password })"
+        :loading="auth.isLoading"
         size="xl"
         variant="outline"
         color="secondary"
