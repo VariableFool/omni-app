@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import type { LoginResponse } from '~/types';
 
 export const useAuthStore = defineStore('authStore', () => {
+  const apiUrl = 'http://localhost:4000';
   const token = useCookie('token', {
     maxAge: 60 * 60 * 24 * 7,
   });
@@ -14,6 +15,7 @@ export const useAuthStore = defineStore('authStore', () => {
 
   const error = ref('');
   const isLoading = ref(false);
+  const isProfileLoading = ref(false);
 
   async function login(userData: { email: string; password: string }) {
     error.value = '';
@@ -30,14 +32,19 @@ export const useAuthStore = defineStore('authStore', () => {
 
     isLoading.value = true;
     try {
-      const response = await $fetch<LoginResponse>('https://omni-api.gghub.ru/auth/login', {
+      const response = await $fetch<LoginResponse>('/auth/login', {
         method: 'POST',
+        baseURL: apiUrl,
         body: userData,
       });
 
-      token.value = response.token;
       user.value = response.user;
-      navigateTo('/');
+
+      token.value = response.token;
+
+      if (isAuthenticated.value) {
+        navigateTo('/profile');
+      }
     } catch (err) {
       console.error('Ошибка при авторизации', err);
       error.value = 'Не удалось войти';
@@ -50,27 +57,43 @@ export const useAuthStore = defineStore('authStore', () => {
     error.value = '';
     isLoading.value = true;
     try {
-      const response = await $fetch<LoginResponse>('https://omni-api.gghub.ru/auth/register', {
+      const response = await $fetch<LoginResponse>('/auth/register', {
         method: 'POST',
+        baseURL: apiUrl,
         body: userData,
       });
 
-      token.value = response.token;
       user.value = response.user;
-      navigateTo('/');
-    } catch (err) {
-      console.error('Ошибка при авторизации', err);
+
+      token.value = response.token;
+
+      if (isAuthenticated.value) {
+        navigateTo('/profile');
+      }
+    } catch (err: any) {
+      if (err.response) {
+        return (error.value = err.response._data.error);
+      }
       error.value = 'Не удалось зарегистрироваться';
     } finally {
       isLoading.value = false;
     }
   }
 
+  function logout() {
+    token.value = null;
+  }
+
   return {
     isAuthenticated,
     isLoading,
+    isProfileLoading,
     error,
+    user,
+    token,
+    apiUrl,
     login,
     register,
+    logout,
   };
 });

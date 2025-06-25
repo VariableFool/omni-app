@@ -1,6 +1,8 @@
 <script setup lang="ts">
 const auth = useAuthStore();
-const devMode = ref(true);
+const { isAuthenticated } = storeToRefs(auth);
+
+const devMode = ref(false);
 </script>
 
 <template>
@@ -26,12 +28,22 @@ const devMode = ref(true);
       </div>
     </div>
 
-    <div
-      @click="navigateTo('/profile')"
-      class="py-1 px-2 flex items-center gap-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg"
-    >
-      <Icon name="lucide:user" class="w-6 h-6" />
-      <span>{{ auth.isAuthenticated ? 'Профиль' : 'Войти' }}</span>
+    <div class="flex gap-2">
+      <div
+        @click="navigateTo('/profile')"
+        class="py-1 px-2 flex items-center gap-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg"
+      >
+        <Icon name="lucide:user" class="w-6 h-6" />
+        <span>{{ auth.isAuthenticated ? 'Профиль' : 'Войти' }}</span>
+      </div>
+
+      <div
+        v-if="isAuthenticated"
+        @click="auth.logout"
+        class="py-1 px-2 flex items-center gap-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg"
+      >
+        <span>Выйти</span>
+      </div>
     </div>
   </header>
 </template>
