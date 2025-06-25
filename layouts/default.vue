@@ -7,7 +7,7 @@ const isSidebarCollapsed = ref(true);
   <div v-if="$device.isDesktop">
     <AppHeader />
   </div>
-  <div v-if="$device.isMobile">
+  <div v-else>
     <AppHeaderMobile />
   </div>
 
@@ -15,7 +15,7 @@ const isSidebarCollapsed = ref(true);
     <Sidebar :collapsed="isSidebarCollapsed" @toggle="isSidebarCollapsed = !isSidebarCollapsed" />
   </div>
 
-  <div v-if="$device.isMobile">
+  <div v-else>
     <SidebarMobile />
   </div>
 
