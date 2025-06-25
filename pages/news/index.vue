@@ -1,79 +1,118 @@
 <script setup lang="ts">
+interface channels {
+  name: string;
+  url: string;
+}
+
+const channels = {
+  cybersport: {
+    name: 'cybersport',
+    url: 'https://www.cybersport.ru/rss/materials',
+  },
+  tass: {
+    name: 'tass',
+    url: 'https://tass.ru/rss/v2.xml',
+  },
+  ria: {
+    name: 'ria',
+    url: 'https://ria.ru/export/rss2/archive/index.xml',
+  },
+  lenta: {
+    name: 'lenta',
+    url: 'https://lenta.ru/rss',
+  },
+};
+
+const showOnlyFunChannels = ref(true);
+const channelList = computed(() => {
+  if (showOnlyFunChannels.value) {
+    return { cybersport: channels.cybersport };
+  }
+  return channels;
+});
+
+const activeChannel = ref<keyof typeof channels>('cybersport');
+
 const newsStore = useNewsStore();
 const { allNews, loading, error } = storeToRefs(newsStore);
 
-const activeAllCahnnels = ref(false);
-const channels = computed(() =>
-  activeAllCahnnels.value
-    ? (['cybersport', 'ria', 'tass', 'lenta'] as const)
-    : (['cybersport'] as const),
-);
+const activeChannelNews = computed(() => {
+  return allNews.value[activeChannel.value];
+});
 
-const activeChannel = ref<'cybersport' | 'lenta' | 'ria' | 'tass'>('cybersport');
+watch(activeChannel, async (newChannel) => {
+  if (!allNews.value[newChannel]) {
+    await newsStore.fetchNews(newChannel, activeChannelUrl.value.url);
+  }
+});
 
-watch(activeChannel, (newChannel) => {
-  newsStore.fetchNews(newChannel);
+const activeChannelUrl = computed(() => {
+  return channels[activeChannel.value];
 });
 
 onMounted(async () => {
-  if (allNews.value[activeChannel.value] === undefined) {
-    newsStore.fetchNews(activeChannel.value);
+  if (!allNews.value[activeChannel.value]) {
+    await newsStore.fetchNews(activeChannel.value, activeChannelUrl.value.url);
   }
 });
+
+function toggleActiveChannel(channelName: keyof typeof channels) {
+  activeChannel.value = channelName;
+}
 </script>
 
 <template>
-  <div>
-    <div class="mx-auto mt-4 flex flex-wrap justify-center items-center gap-2">
-      <UButton
-        v-for="channel in channels"
-        :key="channel"
-        :active="activeChannel === channel"
-        @click="activeChannel = channel"
-        variant="outline"
-        color="neutral"
-        size="xl"
-        active-variant="solid"
-        active-color="secondary"
-      >
-        <img :src="`/${channel}.ico`" width="16" />
-        {{ channel.toUpperCase() }}
-      </UButton>
+  <div class="my-4 flex flex-col items-center">
+    <div class="flex gap-2 flex-wrap justify-center">
+      <div v-for="(channel, key) in channelList" :key="channel.name">
+        <UButton
+          @click="toggleActiveChannel(key)"
+          :active="activeChannel === channel.name"
+          active-variant="solid"
+          active-color="secondary"
+          size="xl"
+          variant="outline"
+          color="neutral"
+        >
+          <img :src="`/${channel.name}.ico`" alt="logo" width="16" />
+          {{ channel.name.toUpperCase() }}
+        </UButton>
+      </div>
     </div>
 
-    <div class="mb-4 flex flex-col items-center gap-4">
+    <div>
       <UButton
         variant="link"
         color="info"
-        @click="activeAllCahnnels = activeAllCahnnels ? false : true"
+        @click="
+          showOnlyFunChannels = showOnlyFunChannels ? false : ((activeChannel = 'cybersport'), true)
+        "
+        class="m-2"
         >{{
-          activeAllCahnnels ? 'Скрыть все, кроме развлекательных' : 'Показать все каналы'
+          showOnlyFunChannels ? 'Показать все каналы' : 'Показывать только развлекательные'
         }}</UButton
-      >
-      <UButton
-        :disabled="loading"
-        @click="newsStore.fetchNews(activeChannel, true)"
-        variant="subtle"
-        color="neutral"
-        icon="tabler:refresh"
-        >{{ loading ? 'Обновление...' : 'Обновить' }}</UButton
       >
     </div>
 
-    <LoadingSpinner v-if="loading" :title="'Загружаю новости...'" />
+    <div>
+      <UButton
+        @click="newsStore.fetchNews(activeChannel, activeChannelUrl.url, true)"
+        variant="outline"
+        color="secondary"
+        icon="lucide:refresh-cw"
+        :loading="loading"
+        >{{ loading ? 'Обновление' : 'Обновить' }}</UButton
+      >
+    </div>
 
-    <ErrorDisplay
-      v-else-if="error"
-      :message="`Не удалось загрузить новости для: ${activeChannel.toUpperCase()}`"
-    />
+    <LoadingSpinner v-if="loading" :title="'Загружаю новости'" />
 
-    <div v-else class="flex flex-col items-center">
-      <NewsCard
-        v-for="news in allNews[activeChannel]"
-        :key="news.link"
-        :news="news"
-        :title="activeChannel.toUpperCase()"
-      />
+    <ErrorDisplay v-if="error" :message="error" />
+
+    <div v-else>
+      <div v-for="news in activeChannelNews">
+        <NewsCard :news="news" />
+      </div>
     </div>
   </div>
 </template>

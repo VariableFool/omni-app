@@ -4,13 +4,13 @@ const props = withDefaults(
     message: string;
   }>(),
   {
-    message: '🧐 Ошибка без сообщения — разработчик где-то халтурит...',
+    message: '🧐 Ошибка без сообщения - разработчик где-то халтурит...',
   },
 );
 </script>
 
 <template>
-  <div>
+  <div class="text-center">
     <span class="text-2xl text-red-500">{{ props.message }}</span>
   </div>
 </template>
