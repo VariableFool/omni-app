@@ -9,7 +9,7 @@ const password = ref('');
 
 <template>
   <div
-    class="h-[calc(100vh-48px-72px)] text-sky-600 dark:text-white flex flex-col items-center justify-center md:flex-row md:justify-between"
+    class="h-[calc(100vh-48px-72px-100px)] md:h-[calc(100vh-56px)] text-sky-600 dark:text-white flex flex-col items-center justify-center md:flex-row md:justify-between"
   >
     <div class="mb-4 md:mb-0 mx-auto">
       <UIcon name="lucide:twitter" size="20vw" />
