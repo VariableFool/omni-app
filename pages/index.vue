@@ -17,7 +17,7 @@
 
     <iframe
       class="sm:w-3xl sm:h-[432px]"
-      src="https://player.twitch.tv/?channel=filmprimetv&parent=localhost&autoplay=false"
+      src="https://player.twitch.tv/?channel=filmprimetv&parent=omni.gghub.ru&autoplay=false"
       frameborder="0"
       allowfullscreen
       scrolling="no"
