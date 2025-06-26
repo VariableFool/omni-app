@@ -30,7 +30,7 @@ export const useAuthStore = defineStore('authStore', () => {
       }
     }
 
-    if (userData.password.length <= 6) {
+    if (userData.password.length <= 3) {
       return (error.value = 'Пароль должен быть больше 6 символов');
     }
 
@@ -71,7 +71,7 @@ export const useAuthStore = defineStore('authStore', () => {
       }
     }
 
-    if (userData.password.length <= 6) {
+    if (userData.password.length <= 3) {
       return (error.value = 'Пароль должен быть больше 6 символов');
     }
 

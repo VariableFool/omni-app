@@ -70,14 +70,18 @@ const password = ref('');
         variant="solid"
         color="secondary"
         class="w-[320px] rounded-full justify-center"
-        >Зарегистрироваться</UButton
-      >
-      <div class="w-[320px] flex items-center gap-3">
-        <hr class="w-full text-gray-400 dark:text-gray-600" />
-        <span>ИЛИ</span>
-        <hr class="w-full text-gray-400 dark:text-gray-600" />
+        label="Зарегистрироваться"
+        :ui="{
+          base: 'bg-sky-500 hover:bg-sky-600 dark:bg-white dark:hover:bg-gray-300 dark:disabled:bg-gray-300',
+        }"
+      />
+      <div class="w-[320px]">
+        <USeparator
+          label="ИЛИ"
+          :ui="{ border: 'border-1 border-gray-300 dark:border-gray-600', label: 'text-gray-500' }"
+        />
       </div>
-      <span class="w-[320px] text-center font-bold">Уже зарегистрированы?</span>
+      <span class="w-[320px] text-center font-bold dark:text-white">Уже зарегистрированы?</span>
       <UButton
         @click="auth.login({ email: email, password: password })"
         :loading="auth.isLoading"
@@ -85,8 +89,17 @@ const password = ref('');
         variant="outline"
         color="secondary"
         class="w-[320px] rounded-full justify-center"
-        >Войти</UButton
-      >
+        label="Войти"
+        :ui="{
+          base: 'ring-sky-500 text-sky-500 dark:ring-white dark:text-white dark:hover:bg-gray-700',
+        }"
+      />
     </div>
   </div>
 </template>
+
+<style scoped>
+.my-custom-separator {
+  --uno-border-color: #ff6f61; /* или любой другой цвет */
+}
+</style>
