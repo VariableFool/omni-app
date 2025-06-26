@@ -102,6 +102,7 @@ export const useAuthStore = defineStore('authStore', () => {
 
   function logout() {
     token.value = null;
+    navigateTo('/');
   }
 
   return {
