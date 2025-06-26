@@ -30,6 +30,10 @@ export const useAuthStore = defineStore('authStore', () => {
       }
     }
 
+    if (userData.password.length <= 6) {
+      return (error.value = 'Пароль должен быть больше 6 символов');
+    }
+
     isLoading.value = true;
     try {
       const response = await $fetch<LoginResponse>('/auth/login', {
@@ -53,8 +57,24 @@ export const useAuthStore = defineStore('authStore', () => {
     }
   }
 
-  async function register(userData: object) {
+  async function register(userData: { email: string; password: string }) {
     error.value = '';
+
+    if (!userData.email || !userData.password) {
+      return (error.value = 'Email или пароль не могут быть пустыми');
+    }
+
+    if (userData.email) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(userData.email)) {
+        return (error.value = 'Это не похоже на настоящий email');
+      }
+    }
+
+    if (userData.password.length <= 6) {
+      return (error.value = 'Пароль должен быть больше 6 символов');
+    }
+
     isLoading.value = true;
     try {
       const response = await $fetch<LoginResponse>('/auth/register', {

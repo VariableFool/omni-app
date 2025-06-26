@@ -2,7 +2,7 @@
 const auth = useAuthStore();
 const { isAuthenticated } = storeToRefs(auth);
 
-const devMode = ref(false);
+const devMode = ref(true);
 </script>
 
 <template>
