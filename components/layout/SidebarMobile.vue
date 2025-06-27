@@ -12,9 +12,9 @@ const menu = [
 
 <template>
   <div
-    class="fixed bottom-0 w-full h-16 p-2 px-6 bg-gray-50 border-t-1 border-gray-300 dark:border-gray-700 dark:bg-gray-900"
+    class="fixed bottom-0 w-full h-16 p-2 bg-gray-50 border-t-1 border-gray-300 dark:border-gray-700 dark:bg-gray-900"
   >
-    <nav class="flex justify-between gap-2">
+    <nav class="flex justify-between gap-1">
       <NuxtLink
         v-for="item in menu"
         :key="item.label"

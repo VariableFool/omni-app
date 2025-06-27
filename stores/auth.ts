@@ -2,7 +2,8 @@ import { defineStore } from 'pinia';
 import type { LoginResponse } from '~/types';
 
 export const useAuthStore = defineStore('authStore', () => {
-  const apiUrl = 'https://omni-api.gghub.ru/';
+  // const apiUrl = 'https://omni-api.gghub.ru/';
+  const apiUrl = 'http://localhost:4000/';
   const token = useCookie('token', {
     maxAge: 60 * 60 * 24 * 7,
   });
@@ -35,6 +36,8 @@ export const useAuthStore = defineStore('authStore', () => {
     }
 
     isLoading.value = true;
+    isProfileLoading.value = true;
+
     try {
       const response = await $fetch<LoginResponse>('/auth/login', {
         method: 'POST',
@@ -54,6 +57,7 @@ export const useAuthStore = defineStore('authStore', () => {
       error.value = 'Не удалось войти';
     } finally {
       isLoading.value = false;
+      isProfileLoading.value = false;
     }
   }
 
@@ -100,9 +104,10 @@ export const useAuthStore = defineStore('authStore', () => {
     }
   }
 
-  function logout() {
+  async function logout() {
     token.value = null;
-    navigateTo('/');
+    useState('user').value = null;
+    await navigateTo('/');
   }
 
   return {

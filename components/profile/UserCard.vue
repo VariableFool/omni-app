@@ -1,9 +1,10 @@
 <script setup lang="ts">
+import type { LoginResponse } from '~/types';
+
 const auth = useAuthStore();
+const user = useState<LoginResponse['user']>('user');
 
-const nickname = ref(auth.user?.nickname);
-
-const p4 = 'p-4';
+const nickname = ref(user.value.nickname);
 
 type Button = {
   label: string;
@@ -21,17 +22,24 @@ const buttons: Button[] = [
   },
   { label: 'Выйти', disabled: false, action: auth.logout, color: 'error' },
 ];
+
+const p4 = 'p-4';
+const titleStyle = 'text-lg sm:text-xl font-medium';
+const subtitleStyle = 'p-0 py-1 text-lg sm:text-xl';
+const dottedStyle = 'flex-1 border-b-1 border-gray-600 border-dotted h-5 mx-1';
 </script>
 
 <template>
   <div
-    class="w-2xl ring-1 ring-gray-300 dark:ring-0 dark:bg-gray-950/30 h-full flex flex-col sm:rounded-2xl"
+    class="w-lg ring-1 ring-gray-300 dark:ring-0 dark:bg-gray-950/30 h-full flex flex-col sm:rounded-2xl"
   >
     <div :class="p4" class="flex items-center gap-4">
-      <UAvatar :alt="String(auth.user?.id)" size="3xl" />
-      <div class="flex flex-col">
-        <span class="text-xl">{{ nickname || auth.user?.email }}</span>
-        <span class="text-gray-500">{{ 'id:' + auth.user?.id }}</span>
+      <UAvatar :alt="String(user.id)" size="3xl" />
+      <div class="flex flex-col gap-1">
+        <span class="text-xl">{{ nickname || user.email }}</span>
+        <span class="text-gray-500">
+          {{ 'Регистрация: ' + new Date(user.createdAt).toLocaleDateString('ru-RU') }}
+        </span>
       </div>
     </div>
 
@@ -39,13 +47,30 @@ const buttons: Button[] = [
       :class="p4"
       class="flex flex-col flex-1 border-y-1 border-gray-300 dark:border-gray-700/80 gap-2"
     >
-      <div class="flex items-center gap-2">
-        <span class="w-24 sm:w-32 text-sm sm:text-xl font-medium">Email:</span>
-        <span class="p-0 px-2 py-1 sm:text-xl">{{ auth.user?.email }}</span>
+      <div class="flex items-center">
+        <span :class="titleStyle">Email:</span>
+        <div :class="dottedStyle"></div>
+        <span :class="subtitleStyle">{{ user.email }}</span>
       </div>
       <div class="flex items-center gap-2">
-        <span class="w-24 sm:w-32 text-sm sm:text-xl font-medium">Никнейм:</span>
-        <EmailInput v-model:nickname="nickname" class="flex-1" />
+        <span :class="titleStyle">Никнейм:</span>
+        <div :class="dottedStyle"></div>
+        <EmailInput v-model:nickname="nickname" />
+      </div>
+      <div class="flex items-center gap-2">
+        <span :class="titleStyle">Дата рождения:</span>
+        <div :class="dottedStyle"></div>
+        <span :class="subtitleStyle">{{ user.birthDate || 'undefined' }}</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <span :class="titleStyle">Специальность:</span>
+        <div :class="dottedStyle"></div>
+        <span :class="subtitleStyle">{{ user.specialty || 'undefined' }}</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <span :class="titleStyle">Статус:</span>
+        <div :class="dottedStyle"></div>
+        <span :class="subtitleStyle">{{ user.status || 'undefined' }}</span>
       </div>
     </div>
 

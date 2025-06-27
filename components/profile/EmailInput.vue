@@ -22,7 +22,8 @@ watch(internalNickname, (newVal) => {
       class="font-mono"
       :style="{
         width: `${
-          Math.max(internalNickname.length, 1) + (internalNickname.length >= 10 ? 6 : 5)
+          Math.max(internalNickname.length, 1) +
+          (internalNickname.length >= 10 ? ($device.isMobile ? 7 : 6) : $device.isMobile ? 6 : 5)
         }ch`,
       }"
       :ui="{
