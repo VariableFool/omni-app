@@ -2,6 +2,8 @@ import { defineStore } from 'pinia';
 import type { LoginResponse } from '~/types';
 
 export const useAuthStore = defineStore('authStore', () => {
+  const devMode = ref(true);
+
   const apiUrl = 'https://omni-api.gghub.ru/';
   //const apiUrl = 'http://localhost:4000/';
   const token = useCookie('token', {
@@ -49,9 +51,7 @@ export const useAuthStore = defineStore('authStore', () => {
 
       token.value = response.token;
 
-      if (isAuthenticated.value) {
-        navigateTo('/profile');
-      }
+      navigateTo('/profile');
     } catch (err) {
       console.error('Ошибка при авторизации', err);
       error.value = 'Не удалось войти';
@@ -111,6 +111,7 @@ export const useAuthStore = defineStore('authStore', () => {
   }
 
   return {
+    devMode,
     isAuthenticated,
     isLoading,
     isProfileLoading,

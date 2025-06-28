@@ -1,8 +1,8 @@
 <script setup lang="ts">
-const auth = useAuthStore();
-const { isAuthenticated } = storeToRefs(auth);
+import DevInfo from '../ui/DevInfo.vue';
 
-const devMode = ref(false);
+const auth = useAuthStore();
+const { isAuthenticated, devMode } = storeToRefs(auth);
 </script>
 
 <template>
@@ -12,20 +12,7 @@ const devMode = ref(false);
     <div class="flex justify-center items-center gap-3">
       <ThemeSwitcher />
       <h1 class="text-lg font-semibold">OMNI APP</h1>
-      <div>
-        <div v-if="devMode">
-          [
-          <span class="blinking-dot"></span>
-          <span> DEVELOPMENT IN PROGRESS 🛠️</span>
-          ]
-        </div>
-        <div v-else>
-          [
-          <span class="blinking-no-active-dot"></span>
-          <span> CONTINUATION TOMORROW 😴</span>
-          ]
-        </div>
-      </div>
+      <DevInfo :text="' DEVELOPMENT IN PROGRESS 🛠️'" />
     </div>
 
     <div class="flex gap-2">
@@ -49,28 +36,3 @@ const devMode = ref(false);
     </div>
   </header>
 </template>
-
-<style scoped>
-.blinking-dot {
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background-color: rgb(255, 0, 0);
-  animation: blinker 1s linear infinite;
-}
-
-@keyframes blinker {
-  50% {
-    opacity: 0;
-  }
-}
-
-.blinking-no-active-dot {
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background-color: gray;
-}
-</style>
