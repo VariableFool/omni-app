@@ -1,8 +1,8 @@
 export default defineNuxtRouteMiddleware(async (to, from) => {
   const token = useCookie('token');
   const user = useState('user');
-  //const apiUrl = 'https://omni-api.gghub.ru/';
-  const apiUrl = 'http://localhost:4000/';
+  const apiUrl = 'https://omni-api.gghub.ru/';
+  //const apiUrl = 'http://localhost:4000/';
 
   // Если токена нет, перенаправляем на /login
   if (!token.value) {

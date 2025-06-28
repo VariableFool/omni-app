@@ -29,7 +29,7 @@ const date = new Date(user.value.createdAt).toLocaleDateString('ru-RU');
 
 <template>
   <div
-    class="w-lg ring-1 ring-gray-300 dark:ring-0 dark:bg-gray-950/30 h-full flex flex-col sm:rounded-2xl"
+    class="w-full sm:w-xl ring-1 ring-gray-300 dark:ring-0 dark:bg-gray-950/30 h-full flex flex-col sm:rounded-2xl"
   >
     <div class="flex items-center p-4 gap-4">
       <UAvatar :alt="String(user.id)" size="3xl" />
@@ -58,6 +58,7 @@ const date = new Date(user.value.createdAt).toLocaleDateString('ru-RU');
           placeholder="01.01.1993"
           :ui="{
             base: 'w-[123px] mt-1 sm:w-[150px] ring-0 bg-gray-800 focus-visible:ring-0 text-sm sm:text-lg px-1 py-0 sm:px-2',
+            trailing: 'pt-0.5',
           }"
           ><template #trailing
             ><Icon
