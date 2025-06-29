@@ -4,7 +4,7 @@
       <span>Europaplus</span>
       <audio ref="player" controls>
         <source
-          src="http://emgregion.hostingradio.ru:8064/moscow.europaplus.mp3"
+          src="https://emgregion.hostingradio.ru:8064/moscow.europaplus.mp3"
           type="audio/mpeg"
         />
       </audio>
