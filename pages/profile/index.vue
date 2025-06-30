@@ -18,6 +18,10 @@ const disabled = computed(() => {
 
   return u === o;
 });
+
+function saveChanges(userData: any) {
+  console.log(userData);
+}
 </script>
 
 <template>
@@ -25,8 +29,13 @@ const disabled = computed(() => {
     <div class="absolute top-1/2 left-1/2 -translate-1/2">
       <LoadingSpinner v-if="pending" :title="'Загружаю профиль...'" />
     </div>
-    <div class="sm:py-4 sm:flex sm:justify-center">
-      <UserCard v-if="auth.user" v-model="auth.user" :disabled="disabled" />
+    <div class="w-full sm:py-4 sm:flex sm:justify-center">
+      <UserCard
+        v-if="auth.user && !pending"
+        v-model="auth.user"
+        :disabled="disabled"
+        :save-changes="saveChanges"
+      />
     </div>
   </AuthGate>
 </template>
