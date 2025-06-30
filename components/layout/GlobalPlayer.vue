@@ -15,17 +15,6 @@ const auth = useAuthStore();
     </div>
 
     <div>
-      <span class="text-center">Twitch FilmPrimeTv</span>
-      <iframe
-        class="w-[320px] h-[250px] sm:w-3xl sm:h-[432px]"
-        src="https://player.twitch.tv/?channel=filmprimetv&parent=omni.gghub.ru&autoplay=false"
-        frameborder="0"
-        allowfullscreen
-        scrolling="no"
-      ></iframe>
-    </div>
-
-    <div>
       <span class="text-center">YouTube</span>
       <iframe
         class="w-[320px] h-[180px] sm:w-3xl sm:h-[432px]"
