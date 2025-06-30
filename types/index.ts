@@ -16,7 +16,7 @@ export type LoginResponse = {
     createdAt: string;
     status?: string;
     nickname?: string;
-    birthDate?: Date;
+    birthDate?: string;
     specialty?: string;
   };
 };

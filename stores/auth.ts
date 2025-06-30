@@ -14,11 +14,30 @@ export const useAuthStore = defineStore('authStore', () => {
     return !!token.value;
   });
 
-  const user = ref<LoginResponse['user']>();
+  const user = ref<LoginResponse['user'] | null>(null);
 
   const error = ref('');
   const isLoading = ref(false);
   const isProfileLoading = ref(false);
+
+  async function fetchUser() {
+    if (!token.value) return null;
+
+    try {
+      const data = await $fetch<LoginResponse>('/auth/status', {
+        method: 'GET',
+        baseURL: apiUrl,
+        headers: {
+          Authorization: `Bearer ${token.value}`,
+        },
+      });
+      user.value = { ...data.user };
+      return data.user;
+    } catch (err) {
+      user.value = null;
+      return null;
+    }
+  }
 
   async function login(userData: { email: string; password: string }) {
     error.value = '';
@@ -117,6 +136,7 @@ export const useAuthStore = defineStore('authStore', () => {
     user,
     token,
     apiUrl,
+    fetchUser,
     login,
     register,
     logout,

@@ -1,5 +1,9 @@
+<script setup>
+const auth = useAuthStore();
+</script>
+
 <template>
-  <div class="w-full max-w-[1920px] flex flex-col items-center gap-4 mb-20">
+  <div v-if="!auth.devMode" class="w-full max-w-[1920px] flex flex-col items-center gap-4 mb-20">
     <div>
       <span>Europaplus</span>
       <audio ref="player" controls>
@@ -11,15 +15,13 @@
     </div>
 
     <div>
-      <span class="text-center">RuTube</span>
+      <span class="text-center">Twitch FilmPrimeTv</span>
       <iframe
-        class="w-[320px] h-[180px] sm:w-3xl sm:h-[432px]"
-        src="https://rutube.ru/play/embed/7b8f2701588b71ac0d68834bef33aa80"
-        frameBorder="0"
-        allow="clipboard-write; autoplay"
-        webkitAllowFullScreen
-        mozallowfullscreen
-        allowFullScreen
+        class="w-[320px] h-[250px] sm:w-3xl sm:h-[432px]"
+        src="https://player.twitch.tv/?channel=filmprimetv&parent=omni.gghub.ru&autoplay=false"
+        frameborder="0"
+        allowfullscreen
+        scrolling="no"
       ></iframe>
     </div>
 
@@ -32,17 +34,6 @@
         frameborder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowfullscreen
-      ></iframe>
-    </div>
-
-    <div>
-      <span class="text-center">Twitch FilmPrimeTv</span>
-      <iframe
-        class="w-[320px] h-[250px] sm:w-3xl sm:h-[432px]"
-        src="https://player.twitch.tv/?channel=filmprimetv&parent=omni.gghub.ru&autoplay=false"
-        frameborder="0"
-        allowfullscreen
-        scrolling="no"
       ></iframe>
     </div>
   </div>
