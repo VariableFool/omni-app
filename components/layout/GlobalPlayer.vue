@@ -1,9 +1,5 @@
-<script setup>
-const auth = useAuthStore();
-</script>
-
 <template>
-  <div v-if="!auth.devMode" class="w-full max-w-[1920px] flex flex-col items-center gap-4 mb-20">
+  <div class="w-full max-w-[1920px] flex flex-col items-center gap-4 mb-20">
     <div>
       <span>Europaplus</span>
       <audio ref="player" controls>

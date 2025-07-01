@@ -1,5 +1,5 @@
 <template>
-  <div>
-    <h1 class="font-bold text-4xl">Music</h1>
+  <div class="p-4 text-center flex flex-col gap-8">
+    <h1 class="text-2xl">Это только начало, дальше — лучше 😉</h1>
   </div>
 </template>
