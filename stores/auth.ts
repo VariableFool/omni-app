@@ -1,11 +1,11 @@
 import { defineStore } from 'pinia';
-import type { LoginResponse } from '~/types';
+import type { LoginResponse, UserData } from '~/types';
 
 export const useAuthStore = defineStore('authStore', () => {
   const devMode = ref(true);
 
-  const apiUrl = 'https://omni-api.gghub.ru/';
-  //const apiUrl = 'http://localhost:4000/';
+  // const apiUrl = 'https://omni-api.gghub.ru/';
+  const apiUrl = 'http://localhost:4000/';
   const token = useCookie('token', {
     maxAge: 60 * 60 * 24 * 7,
   });
@@ -121,6 +121,34 @@ export const useAuthStore = defineStore('authStore', () => {
     }
   }
 
+  async function updateUser(userData: UserData) {
+    if (!userData) {
+      return (error.value = 'Вы ничего не изменили');
+    }
+
+    if (!token.value) {
+      return (error.value = 'Токен отсутствует');
+    }
+
+    try {
+      const res = await $fetch<LoginResponse['user']>('/auth/update', {
+        method: 'PATCH',
+        baseURL: apiUrl,
+        headers: {
+          Authorization: `Bearer ${token.value}`,
+          'Content-Type': 'application/json',
+        },
+        body: userData,
+      });
+
+      user.value = res;
+      return res;
+    } catch (error) {
+      console.error('Fetch error:', error);
+      return error;
+    }
+  }
+
   async function logout() {
     token.value = null;
     useState('user').value = null;
@@ -139,6 +167,7 @@ export const useAuthStore = defineStore('authStore', () => {
     fetchUser,
     login,
     register,
+    updateUser,
     logout,
   };
 });

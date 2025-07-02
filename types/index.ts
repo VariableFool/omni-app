@@ -20,3 +20,10 @@ export type LoginResponse = {
     specialty?: string;
   };
 };
+
+export interface UserData {
+  nickname?: string;
+  birthDate?: string;
+  status?: string;
+  specialty?: string;
+}

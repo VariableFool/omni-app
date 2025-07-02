@@ -19,5 +19,6 @@ const menu = [
     variant="ghost"
     color="neutral"
     class="flex items-center mb-6 gap-4"
+    @click="navigateTo(button.to)"
   />
 </template>

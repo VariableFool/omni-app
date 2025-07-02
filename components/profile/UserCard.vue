@@ -1,15 +1,24 @@
 <script setup lang="ts">
 import type { LoginResponse } from '~/types';
 
-const props = defineProps<{ disabled: boolean; saveChanges: (args?: any) => void }>();
+const props = defineProps<{
+  disabled: boolean;
+  pending: boolean;
+  saveChanges: (args?: any) => void;
+}>();
 
 const user = defineModel<LoginResponse['user']>();
 
 const date = new Date(user.value?.createdAt || 'undefined').toLocaleDateString('ru-RU');
 
 function save() {
-  const userData = JSON.stringify({ ...user.value });
-  props.saveChanges(userData);
+  const u = user.value;
+  const userData = ref({});
+  if (u?.createdAt && u.email && u.id && u.role) {
+    const { createdAt, email, id, role, ...rest } = u;
+    userData.value = Object.fromEntries(Object.entries(rest).filter(([_, v]) => v != null));
+  }
+  props.saveChanges(userData.value);
 }
 </script>
 
@@ -17,6 +26,7 @@ function save() {
   <div v-if="user">
     <UCard
       class="h-[calc(100dvh-112px)] sm:h-[calc(100vh-56px-32px)] sm:w-2xl flex flex-col"
+      :class="pending ? 'pointer-events-none select-none opacity-60' : ''"
       :variant="$device.isDesktop ? 'outline' : 'soft'"
       :ui="{
         root: 'rounded-none sm:rounded-xl sm:dark:bg-gray-900/80',
@@ -54,6 +64,7 @@ function save() {
       <template #footer>
         <UButton
           :disabled="disabled"
+          :loading="pending"
           @click="save"
           variant="outline"
           color="primary"

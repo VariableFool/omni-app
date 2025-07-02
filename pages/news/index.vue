@@ -1,4 +1,6 @@
 <script setup lang="ts">
+useHead({ title: '• Новости' });
+
 interface channels {
   name: string;
   url: string;

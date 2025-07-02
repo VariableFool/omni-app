@@ -1,5 +1,5 @@
 <script setup lang="ts">
-useHead({ title: '| Social network' });
+useHead({ title: '• Соцсеть' });
 
 const auth = useAuthStore();
 

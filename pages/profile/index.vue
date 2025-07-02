@@ -1,10 +1,14 @@
 <script setup lang="ts">
+import type { UserData } from '~/types';
+
 definePageMeta({
   middleware: 'auth',
 });
 
 const auth = useAuthStore();
 const { user } = storeToRefs(auth);
+
+useHead({ title: `• ${user.value?.nickname || user.value?.email || 'Профиль'}` });
 
 const {
   data: originalUser,
@@ -19,8 +23,21 @@ const disabled = computed(() => {
   return u === o;
 });
 
-function saveChanges(userData: any) {
-  console.log(userData);
+const isLoading = ref(false);
+
+async function saveChanges(userData: UserData) {
+  (['nickname', 'birthDate', 'specialty', 'status'] as (keyof UserData)[]).forEach((key) => {
+    if (userData[key] === originalUser.value?.[key]) {
+      delete userData[key];
+    }
+  });
+
+  const cleanedData = { ...userData };
+
+  isLoading.value = true;
+  await auth.updateUser(cleanedData);
+  originalUser.value = auth.user;
+  isLoading.value = false;
 }
 </script>
 
@@ -34,6 +51,7 @@ function saveChanges(userData: any) {
         v-if="auth.user && !pending"
         v-model="auth.user"
         :disabled="disabled"
+        :pending="isLoading"
         :save-changes="saveChanges"
       />
     </div>

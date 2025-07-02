@@ -17,15 +17,21 @@ const tabsItems = ref<TabsItem[]>([
 
 const historyItems = ref<TimelineItem[]>([
   {
-    date: '2 июля 2025',
-    title: 'Работа над бэкендом и вёрсткой',
-    description:
-      'Планируется реализовать добавление постов в разделе «Сеть», редактирование данных пользователя через профиль и другие улучшения. Также — оформление ленты в разделе «Сеть» в стиле Twitter.',
-    icon: 'lucide:binary',
+    date: '3 июля 2025',
+    title: 'Задача на завтра',
+    description: `Планируется реализовать добавление постов в разделе «Сеть». Также — оформление ленты в разделе «Сеть» в стиле Twitter.`,
+    icon: 'lucide:loader',
     ui: {
       indicator: 'group-data-[state=completed]:bg-warning group-data-[state=active]:bg-warning',
       separator: 'group-data-[state=completed]:bg-warning group-data-[state=active]:bg-warning',
     },
+  },
+  {
+    date: '2 июля 2025',
+    title: 'Редактирование профиля',
+    description:
+      'Работа велась как на фронтенде, так и на бэкенде. Реализовано базовое редактирование данных пользователя через профиль.',
+    icon: 'lucide:code',
   },
   {
     date: '1 июля 2025',
@@ -49,11 +55,13 @@ const historyItems = ref<TimelineItem[]>([
   },
 ]);
 
-const active = ref(2);
+const disabled = ref(true);
+const active = ref(3);
 
 onMounted(() => {
+  if (disabled) return;
   setInterval(() => {
-    active.value = active.value === 2 ? 3 : 2;
+    active.value = active.value === 3 ? 4 : 3;
   }, 1500);
 });
 </script>
