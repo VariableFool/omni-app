@@ -23,7 +23,7 @@ const isSidebarCollapsed = ref(true);
     class="sm:mt-14 flex justify-center transition-all"
     :class="isSidebarCollapsed ? 'sm:ml-14' : 'sm:ml-44'"
   >
-    <div class="w-full max-w-[1920px] flex justify-center">
+    <div class="w-full max-w-[1920px]">
       <NuxtPage />
       <div v-show="$route.path === '/music'">
         <GlobalPlayer />

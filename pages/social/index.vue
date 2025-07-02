@@ -20,26 +20,28 @@ const userData = ref({});
 
 <template>
   <AuthGate>
-    <UDrawer
-      v-if="auth.user"
-      direction="left"
-      v-model:open="drawerOpen"
-      title="OMNI APP"
-      :handle="false"
-      :ui="{ content: 'rounded-none' }"
-    >
-      <template #description> <span>Social network</span></template>
-      <template #body>
-        <DrawerUserCard :user="auth.user" />
-        <USeparator class="my-3" />
-        <DrawerMenu />
-      </template>
-    </UDrawer>
-    <div
-      ref="target"
-      class="w-full sm:w-4xl h-[calc(100vh-112px)] sm:h-[calc(100vh-56px)] flex flex-col"
-    >
-      <SocialFeed />
+    <div class="flex justify-center">
+      <UDrawer
+        v-if="auth.user"
+        direction="left"
+        v-model:open="drawerOpen"
+        title="OMNI APP"
+        :handle="false"
+        :ui="{ content: 'rounded-none' }"
+      >
+        <template #description> <span>Social network</span></template>
+        <template #body>
+          <DrawerUserCard :user="auth.user" />
+          <USeparator class="my-3" />
+          <DrawerMenu />
+        </template>
+      </UDrawer>
+      <div
+        ref="target"
+        class="w-full sm:w-4xl h-[calc(100vh-112px)] sm:h-[calc(100vh-56px)] flex flex-col"
+      >
+        <SocialFeed />
+      </div>
     </div>
   </AuthGate>
 </template>

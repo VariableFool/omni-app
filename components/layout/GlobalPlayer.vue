@@ -9,17 +9,5 @@
         />
       </audio>
     </div>
-
-    <div>
-      <span class="text-center">YouTube</span>
-      <iframe
-        class="w-[320px] h-[180px] sm:w-3xl sm:h-[432px]"
-        src="https://www.youtube.com/embed/36YnV9STBqc"
-        title="YouTube video player"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen
-      ></iframe>
-    </div>
   </div>
 </template>

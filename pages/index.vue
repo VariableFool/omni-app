@@ -22,6 +22,10 @@ const historyItems = ref<TimelineItem[]>([
     description:
       'Планируется реализовать добавление постов в разделе «Сеть», редактирование данных пользователя через профиль и другие улучшения. Также — оформление ленты в разделе «Сеть» в стиле Twitter.',
     icon: 'i-lucide-rocket',
+    ui: {
+      indicator: 'group-data-[state=completed]:bg-warning group-data-[state=active]:bg-warning',
+      separator: 'group-data-[state=completed]:bg-warning group-data-[state=active]:bg-warning',
+    },
   },
   {
     date: '1 июля 2025',
@@ -44,6 +48,14 @@ const historyItems = ref<TimelineItem[]>([
     icon: 'lucide:rocket',
   },
 ]);
+
+const active = ref(2);
+
+onMounted(() => {
+  setInterval(() => {
+    active.value = active.value === 2 ? 3 : 2;
+  }, 1500);
+});
 </script>
 
 <template>
@@ -67,7 +79,13 @@ const historyItems = ref<TimelineItem[]>([
         </div>
         <UTabs :items="tabsItems" color="secondary" />
       </template>
-      <UTimeline :items="historyItems" color="secondary" :default-value="2" reverse />
+      <UTimeline
+        v-model="active"
+        :items="historyItems"
+        color="secondary"
+        :default-value="2"
+        reverse
+      />
       <template #footer v-if="!$device.isDesktop">
         <div class="text-center">
           <h1 class="text-xl mb-4">

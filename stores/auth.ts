@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import type { LoginResponse } from '~/types';
 
 export const useAuthStore = defineStore('authStore', () => {
-  const devMode = ref(false);
+  const devMode = ref(true);
 
   const apiUrl = 'https://omni-api.gghub.ru/';
   //const apiUrl = 'http://localhost:4000/';
