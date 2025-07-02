@@ -27,7 +27,7 @@ function saveChanges(userData: any) {
 <template>
   <AuthGate>
     <div class="absolute top-1/2 left-1/2 -translate-1/2">
-      <LoadingSpinner v-if="pending" :title="'Загружаю профиль...'" />
+      <LoadingSpinner v-if="pending" />
     </div>
     <div class="w-full sm:py-4 sm:flex sm:justify-center">
       <UserCard
