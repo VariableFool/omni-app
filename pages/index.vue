@@ -21,7 +21,7 @@ const historyItems = ref<TimelineItem[]>([
     title: 'Работа над бэкендом и вёрсткой',
     description:
       'Планируется реализовать добавление постов в разделе «Сеть», редактирование данных пользователя через профиль и другие улучшения. Также — оформление ленты в разделе «Сеть» в стиле Twitter.',
-    icon: 'i-lucide-rocket',
+    icon: 'lucide:binary',
     ui: {
       indicator: 'group-data-[state=completed]:bg-warning group-data-[state=active]:bg-warning',
       separator: 'group-data-[state=completed]:bg-warning group-data-[state=active]:bg-warning',
