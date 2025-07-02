@@ -110,7 +110,7 @@ function toggleActiveChannel(channelName: keyof typeof channels) {
     <ErrorDisplay v-if="error" :message="error" />
 
     <div v-else>
-      <div v-for="news in activeChannelNews">
+      <div v-for="news in activeChannelNews" class="last:mb-16">
         <NewsCard :news="news" />
       </div>
     </div>

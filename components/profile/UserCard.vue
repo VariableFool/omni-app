@@ -16,7 +16,7 @@ function save() {
 <template>
   <div v-if="user">
     <UCard
-      class="h-[calc(100vh-112px)] sm:h-[calc(100vh-56px-32px)] sm:w-2xl flex flex-col"
+      class="h-[calc(100dvh-112px)] sm:h-[calc(100vh-56px-32px)] sm:w-2xl flex flex-col"
       :variant="$device.isDesktop ? 'outline' : 'soft'"
       :ui="{
         root: 'rounded-none sm:rounded-xl sm:dark:bg-gray-900/80',

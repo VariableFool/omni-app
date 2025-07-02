@@ -38,7 +38,7 @@ const userData = ref({});
       </UDrawer>
       <div
         ref="target"
-        class="w-full sm:w-4xl h-[calc(100vh-112px)] sm:h-[calc(100vh-56px)] flex flex-col"
+        class="w-full sm:w-4xl h-[calc(100dvh-112px)] sm:h-[calc(100vh-56px)] flex flex-col"
       >
         <SocialFeed />
       </div>

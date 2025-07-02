@@ -60,7 +60,7 @@ onMounted(() => {
 
 <template>
   <div
-    class="w-full h-[calc(100vh-105px)] sm:h-[calc(100vh-56px)] relative flex justify-center sm:p-4"
+    class="w-full h-[calc(100dvh-105px)] sm:h-[calc(100vh-56px)] relative flex justify-center sm:p-4"
   >
     <UCard
       class="w-2xl rounded-none ring-0 sm:rounded-lg sm:ring-1 flex flex-col-reverse sm:flex-col"
