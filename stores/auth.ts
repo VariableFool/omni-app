@@ -4,8 +4,8 @@ import type { LoginResponse, UserData } from '~/types';
 export const useAuthStore = defineStore('authStore', () => {
   const devMode = ref(true);
 
-  const apiUrl = 'https://omni-api.gghub.ru/';
-  //const apiUrl = 'http://localhost:4000/';
+  //const apiUrl = 'https://omni-api.gghub.ru/';
+  const apiUrl = 'http://localhost:4000/';
   const token = useCookie('token', {
     maxAge: 60 * 60 * 24 * 7,
   });
@@ -21,21 +21,26 @@ export const useAuthStore = defineStore('authStore', () => {
   const isProfileLoading = ref(false);
 
   async function fetchUser() {
-    if (!token.value) return null;
+    if (!token.value) {
+      await Promise.reject(new Error('Токен отсутствует'));
+    }
 
     try {
-      const data = await $fetch<LoginResponse>('/auth/status', {
+      const { user: originalUser } = await $fetch<LoginResponse>('/auth/status', {
         method: 'GET',
         baseURL: apiUrl,
         headers: {
           Authorization: `Bearer ${token.value}`,
         },
       });
-      user.value = { ...data.user };
-      return data.user;
-    } catch (err) {
-      user.value = null;
-      return null;
+
+      user.value = { ...originalUser };
+      return originalUser;
+    } catch (err: any) {
+      if (err.data.status === 'deleteToken') {
+        token.value = null;
+      }
+      throw err;
     }
   }
 

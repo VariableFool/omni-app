@@ -3,30 +3,33 @@ useHead({ title: '• Соцсеть' });
 
 const auth = useAuthStore();
 
-const drawerOpen = ref(false);
-const target = ref<HTMLElement | null>(null);
+const base = ref(templateRef('base'));
+const isOpen = ref(false);
 
-const { direction } = useSwipe(target, {
+const { direction } = useSwipe(base, {
   threshold: 50,
   onSwipeEnd() {
     if (direction.value === 'right') {
-      drawerOpen.value = true;
+      isOpen.value = true;
+    } else if (direction.value === 'left') {
+      isOpen.value = false;
     }
   },
 });
-
-const userData = ref({});
 </script>
 
 <template>
   <AuthGate>
-    <div class="flex justify-center">
+    <div ref="base" class="flex justify-center">
       <UDrawer
         v-if="auth.user"
         direction="left"
-        v-model:open="drawerOpen"
+        v-model:open="isOpen"
         title="OMNI APP"
-        :handle="false"
+        :overlay="false"
+        :handle="true"
+        :handle-only="true"
+        :modal="false"
         :ui="{ content: 'rounded-none' }"
       >
         <template #description> <span>Social network</span></template>
@@ -36,10 +39,7 @@ const userData = ref({});
           <DrawerMenu />
         </template>
       </UDrawer>
-      <div
-        ref="target"
-        class="w-full sm:w-4xl h-[calc(100dvh-112px)] sm:h-[calc(100vh-56px)] flex flex-col"
-      >
+      <div class="w-full sm:w-4xl h-[calc(100dvh-112px)] sm:h-[calc(100vh-56px)] flex flex-col">
         <SocialFeed />
       </div>
     </div>

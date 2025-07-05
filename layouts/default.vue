@@ -1,33 +1,14 @@
 <script setup lang="ts">
-useHead({ title: 'app' });
-const isSidebarCollapsed = ref(true);
+const desktopMenuOpen = ref(false);
+
+const auth = useAuthStore();
+const { isAuthenticated } = storeToRefs(auth);
 </script>
 
 <template>
-  <div v-if="$device.isDesktop">
-    <AppHeader />
+  <AppHead v-model:is-authenticated="isAuthenticated" :logout="auth.logout" />
+  <div class="mt-12 transition-all" :class="desktopMenuOpen ? 'lg:pl-46' : 'lg:pl-14'">
+    <NuxtPage />
   </div>
-  <div v-else>
-    <AppHeaderMobile />
-  </div>
-
-  <div v-if="$device.isDesktop" class="fixed top-14 left-0">
-    <Sidebar :collapsed="isSidebarCollapsed" @toggle="isSidebarCollapsed = !isSidebarCollapsed" />
-  </div>
-
-  <div v-else>
-    <SidebarMobile />
-  </div>
-
-  <div
-    class="sm:mt-14 flex justify-center transition-all"
-    :class="isSidebarCollapsed ? 'sm:ml-14' : 'sm:ml-44'"
-  >
-    <div class="w-full max-w-[1920px]">
-      <NuxtPage />
-      <div v-show="$route.path === '/music'">
-        <GlobalPlayer />
-      </div>
-    </div>
-  </div>
+  <NavigationMenu v-model:menu-open="desktopMenuOpen" />
 </template>

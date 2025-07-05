@@ -64,7 +64,7 @@ function toggleActiveChannel(channelName: keyof typeof channels) {
 </script>
 
 <template>
-  <div class="my-4 flex flex-col items-center">
+  <div class="py-4 mx-auto flex flex-col items-center">
     <div class="flex gap-2 flex-wrap justify-center">
       <div v-for="(channel, key) in channelList" :key="channel.name">
         <UButton
