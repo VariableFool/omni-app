@@ -22,12 +22,19 @@ const tabsItems = ref<TabsItem[]>([
 
 const historyItems = ref<TimelineItem[]>([
   {
+    date: '6 июля 2025',
+    title: 'Рефакторинг раздела «Соцсеть»',
+    description:
+      'Раздел будет переписан с соблюдением общих принципов оформления и структуры кода.',
+    icon: 'svg-spinners:blocks-shuffle-3',
+    ui: activeTask,
+  },
+  {
     date: '3 июля 2025 - 5 июля 2025',
     title: 'Полный рефакторинг базового UI и логики компонентов',
     description:
       'Исходный код переписан с нуля. Компоненты упрощены, улучшена читаемость и масштабируемость.',
     icon: 'svg-spinners:blocks-shuffle-3',
-    ui: activeTask,
   },
   {
     date: '2 июля 2025',
