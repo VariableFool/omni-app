@@ -34,7 +34,7 @@ const historyItems = ref<TimelineItem[]>([
     title: 'Полный рефакторинг базового UI и логики компонентов',
     description:
       'Исходный код переписан с нуля. Компоненты упрощены, улучшена читаемость и масштабируемость.',
-    icon: 'svg-spinners:blocks-shuffle-3',
+    icon: 'lucide:palette',
   },
   {
     date: '2 июля 2025',
