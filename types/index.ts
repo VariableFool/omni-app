@@ -27,3 +27,9 @@ export interface UserData {
   status?: string;
   specialty?: string;
 }
+
+export interface AuthUserData {
+  email: string;
+  password: string;
+  nickname?: string;
+}

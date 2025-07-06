@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const auth = useAuthStore();
+defineModel('desktop-open');
 </script>
 
 <template>

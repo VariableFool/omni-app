@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import type { TabsItem, TimelineItem } from '@nuxt/ui';
 
-const { width } = useWindowSize();
-
 const activeTask = {
   indicator: 'group-data-[state=completed]:bg-inverted group-data-[state=active]:bg-inverted',
   separator: 'group-data-[state=completed]:bg-inverted group-data-[state=active]:bg-inverted',

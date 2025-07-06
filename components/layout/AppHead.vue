@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import type { LoginResponse } from '~/types';
+
 const { width } = useWindowSize();
 const isAuthenticated = defineModel('isAuthenticated');
 const props = defineProps<{
+  user: LoginResponse['user'] | null;
   logout: () => void;
 }>();
 
@@ -23,6 +26,14 @@ watch(themeMode, (newMode) => {
 function updateHtmlClass() {
   document.documentElement.classList.toggle('dark', themeMode.value);
 }
+
+function handleClick() {
+  if (isAuthenticated.value) {
+    props.logout();
+  } else {
+    navigateTo('/social');
+  }
+}
 </script>
 
 <template>
@@ -32,9 +43,15 @@ function updateHtmlClass() {
     <p class="font-bold font-['Inter'] text-sky-600 dark:text-sky-500">OMNI APP</p>
 
     <div class="flex items-center gap-4">
+      <div v-if="props.user && $route.path !== '/profile'" class="flex items-center gap-2">
+        <UAvatar :alt="String(user?.id)" />
+        <span @click="navigateTo('/profile')" class="cursor-pointer hover:underline">
+          {{ user?.nickname || user?.email }}
+        </span>
+      </div>
       <UButton
-        v-if="width > 1024 && $route.path !== '/social'"
-        @click="isAuthenticated ? props.logout : navigateTo('/social')"
+        v-if="$route.path !== '/social'"
+        @click="handleClick"
         variant="soft"
         :label="isAuthenticated ? 'Выйти' : 'Войти'"
         :icon="isAuthenticated ? 'lucide:log-out' : 'lucide:log-in'"

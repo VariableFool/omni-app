@@ -1,53 +1,68 @@
 <script setup lang="ts">
-const isMobile = useMediaQuery('(max-width: 768px)');
-const show = ref(false);
+import type { AuthUserData } from '~/types';
 
 const auth = useAuthStore();
 
+const show = ref(false);
 const email = ref('');
 const password = ref('');
+
+const isLoading = ref(false);
+const error = ref('');
+
+async function login() {
+  error.value = '';
+  const userData: AuthUserData = {
+    email: email.value,
+    password: password.value,
+  };
+
+  try {
+    isLoading.value = true;
+    await auth.login(userData);
+  } catch (err: any) {
+    error.value = err.message;
+  } finally {
+    isLoading.value = false;
+  }
+}
 </script>
 
 <template>
   <div
-    class="h-[calc(100vh-48px-72px-100px)] md:h-[calc(100vh-56px)] text-sky-600 dark:text-white flex flex-col items-center justify-center md:flex-row md:justify-between"
+    class="h-[calc(100dvh-112px)] lg:h-[calc(100dvh-48px)] px-4 flex flex-col lg:flex-row items-center justify-center lg:justify-baseline text-sky-500 dark:text-white"
   >
-    <div class="mb-4 md:mb-0 mx-auto">
-      <UIcon name="lucide:twitter" size="20vw" />
+    <div class="text-sky-400 mx-auto">
+      <UIcon name="lucide:twitter" size="20vw" class="dark:text-white" />
     </div>
-    <div class="w-[320px] md:min-w-[40vw] flex flex-col items-center md:items-baseline gap-2">
-      <span v-show="isMobile" class="mb-4 font-bold text-2xl">Создать учетную запись</span>
-      <span
-        v-show="!isMobile"
-        class="mb-14 font-bold break-all text-2xl sm:text-2xl/tight md:text-5xl/tight lg:text-6xl/tight xl:text-6xl/tight 2xl:text-7xl/tight whitespace-pre-line"
-        >{{ 'В курсе\nпроисходящего' }}</span
-      >
-      <span
-        v-show="!isMobile && $device.isDesktop"
-        class="mb-8 font-bold text-2xl lg:text-3xl xl:text-4xl dark:text-white"
-      >
-        Присоединяйтесь сегодня.
-      </span>
-      <span v-if="auth.error" class="text-red-400">{{ auth.error }}</span>
-      <div class="mb-4 w-[320px] flex flex-col gap-2">
+    <div class="flex flex-col lg:mr-auto">
+      <div class="mb-4 font-bold text-2xl text-center lg:text-start">
+        <span class="lg:hidden">Вход в аккаунт</span>
+        <div class="hidden lg:flex lg:flex-col">
+          <span class="lg:text-[5vw] xl:text-[4vw]">В курсе</span>
+          <span class="lg:text-[5vw] xl:text-[4vw] lg:mb-14">происходящего</span>
+          <span class="lg:text-[2vw]">Присоединяйтесь сегодня.</span>
+        </div>
+      </div>
+      <div class="w-xs my-4 px-4 sm:px-0 flex flex-col gap-2">
+        <p v-show="error" class="text-error text-center">{{ error }}</p>
         <UInput
-          v-model="email"
-          trailing-icon="i-lucide-at-sign"
-          variant="outline"
-          color="secondary"
+          trailing-icon="lucide:at-sign"
+          placeholder="Email"
           size="xl"
-          class="w-full"
-          placeholder="Введите email"
-          autocomplete="on"
+          v-model="email"
+          color="secondary"
+          type="email"
           name="email"
+          autocomplete="on"
         />
         <UInput
           v-model="password"
-          size="xl"
+          placeholder="Пароль"
           color="secondary"
-          placeholder="Введите пароль"
+          size="xl"
           :type="show ? 'text' : 'password'"
-          :ui="{ trailing: 'pe-1' }"
+          :ui="{ root: 'mb-4', trailing: 'pe-1' }"
         >
           <template #trailing>
             <UButton
@@ -62,44 +77,16 @@ const password = ref('');
             />
           </template>
         </UInput>
-      </div>
-      <UButton
-        @click="auth.register({ email: email, password: password })"
-        :loading="auth.isLoading"
-        size="xl"
-        variant="solid"
-        color="secondary"
-        class="w-[320px] rounded-full justify-center"
-        label="Зарегистрироваться"
-        :ui="{
-          base: 'bg-sky-500 hover:bg-sky-600 dark:bg-white dark:hover:bg-gray-300 dark:disabled:bg-gray-300',
-        }"
-      />
-      <div class="w-[320px]">
-        <USeparator
-          label="ИЛИ"
-          :ui="{ border: 'border-1 border-gray-300 dark:border-gray-600', label: 'text-gray-500' }"
+        <Button label="Войти" :click="login" color="secondary" :loading="isLoading" />
+        <USeparator label="ИЛИ" :ui="{ border: 'border-gray-400', label: 'text-muted' }" />
+        <div class="text-center font-bold"><span>Еще не зарегистрированы?</span></div>
+        <Button
+          label="Зарегистрироваться"
+          :click="() => console.log('da')"
+          variant="outline"
+          color="secondary"
         />
       </div>
-      <span class="w-[320px] text-center font-bold dark:text-white">Уже зарегистрированы?</span>
-      <UButton
-        @click="auth.login({ email: email, password: password })"
-        :loading="auth.isLoading"
-        size="xl"
-        variant="outline"
-        color="secondary"
-        class="w-[320px] rounded-full justify-center"
-        label="Войти"
-        :ui="{
-          base: 'ring-sky-500 text-sky-500 dark:ring-white dark:text-white dark:hover:bg-gray-700',
-        }"
-      />
     </div>
   </div>
 </template>
-
-<style scoped>
-.my-custom-separator {
-  --uno-border-color: #ff6f61; /* или любой другой цвет */
-}
-</style>

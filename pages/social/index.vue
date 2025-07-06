@@ -20,7 +20,7 @@ const { direction } = useSwipe(base, {
 
 <template>
   <AuthGate>
-    <div ref="base" class="flex justify-center">
+    <div ref="base">
       <UDrawer
         v-if="auth.user"
         direction="left"
@@ -39,9 +39,7 @@ const { direction } = useSwipe(base, {
           <DrawerMenu />
         </template>
       </UDrawer>
-      <div class="w-full sm:w-4xl h-[calc(100dvh-112px)] sm:h-[calc(100vh-56px)] flex flex-col">
-        <SocialFeed />
-      </div>
+      <SocialFeed />
     </div>
   </AuthGate>
 </template>

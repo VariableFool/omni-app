@@ -17,8 +17,6 @@ export const useAuthStore = defineStore('authStore', () => {
   const user = ref<LoginResponse['user'] | null>(null);
 
   const error = ref('');
-  const isLoading = ref(false);
-  const isProfileLoading = ref(false);
 
   async function fetchUser() {
     if (!token.value) {
@@ -45,24 +43,20 @@ export const useAuthStore = defineStore('authStore', () => {
   }
 
   async function login(userData: { email: string; password: string }) {
-    error.value = '';
     if (!userData.email || !userData.password) {
-      return (error.value = 'Email или пароль не могут быть пустыми');
+      throw Error('Email или пароль не могут быть пустыми');
     }
 
     if (userData.email) {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(userData.email)) {
-        return (error.value = 'Это не похоже на настоящий email');
+        throw Error('Это не похоже на настоящий email');
       }
     }
 
     if (userData.password.length <= 3) {
-      return (error.value = 'Пароль должен быть больше 6 символов');
+      throw Error('Пароль должен быть больше 6 символов');
     }
-
-    isLoading.value = true;
-    isProfileLoading.value = true;
 
     try {
       const response = await $fetch<LoginResponse>('/auth/login', {
@@ -72,16 +66,10 @@ export const useAuthStore = defineStore('authStore', () => {
       });
 
       user.value = response.user;
-
       token.value = response.token;
-
-      navigateTo('/profile');
     } catch (err) {
-      console.error('Ошибка при авторизации', err);
-      error.value = 'Не удалось войти';
-    } finally {
-      isLoading.value = false;
-      isProfileLoading.value = false;
+      console.error(err);
+      throw Error('Не удалось войти');
     }
   }
 
@@ -103,7 +91,6 @@ export const useAuthStore = defineStore('authStore', () => {
       return (error.value = 'Пароль должен быть больше 6 символов');
     }
 
-    isLoading.value = true;
     try {
       const response = await $fetch<LoginResponse>('/auth/register', {
         method: 'POST',
@@ -121,8 +108,6 @@ export const useAuthStore = defineStore('authStore', () => {
         return (error.value = err.response._data.error);
       }
       error.value = 'Не удалось зарегистрироваться';
-    } finally {
-      isLoading.value = false;
     }
   }
 
@@ -156,15 +141,13 @@ export const useAuthStore = defineStore('authStore', () => {
 
   async function logout() {
     token.value = null;
-    useState('user').value = null;
+    user.value = null;
     await navigateTo('/');
   }
 
   return {
     devMode,
     isAuthenticated,
-    isLoading,
-    isProfileLoading,
     error,
     user,
     token,

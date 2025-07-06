@@ -17,7 +17,7 @@ const menu = [
     :class="desktopMenuOpen ? 'lg:w-46' : 'lg:w-14'"
   >
     <ul
-      class="max-w-xs py-3 lg:py-0 mx-auto h-full flex lg:flex-col justify-between lg:justify-start whitespace-nowrap"
+      class="px-4 sm:px-8 lg:px-0 py-3 lg:py-0 h-full flex lg:flex-col justify-between lg:justify-start whitespace-nowrap"
     >
       <ULinkBase
         @click="desktopMenuOpen = !desktopMenuOpen"
@@ -35,7 +35,7 @@ const menu = [
           active-class="text-secondary"
         >
           <UIcon :name="item.icon" :size="25" class="w-5 h-5 shrink-0" />
-          <span v-if="desktopMenuOpen" class="hidden lg:block">
+          <span v-if="desktopMenuOpen" class="hidden lg:block font-medium">
             {{ item.label }}
           </span>
         </ULink>
