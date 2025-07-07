@@ -43,16 +43,20 @@ function handleClick() {
     <p class="font-bold font-['Inter'] text-sky-600 dark:text-sky-500">OMNI APP</p>
 
     <div class="flex items-center gap-4">
-      <div v-if="props.user && $route.path !== '/profile'" class="flex items-center gap-2">
-        <UAvatar :alt="String(user?.id)" />
+      <div
+        v-if="props.user && $route.path !== '/profile'"
+        class="hidden lg:flex items-center gap-2"
+      >
+        <UAvatar :alt="String(user?.id)" size="xs" />
         <span @click="navigateTo('/profile')" class="cursor-pointer hover:underline">
           {{ user?.nickname || user?.email }}
         </span>
       </div>
       <UButton
-        v-if="$route.path !== '/social'"
+        class="hidden lg:flex"
+        v-if="$route.path !== '/profile'"
         @click="handleClick"
-        variant="soft"
+        variant="link"
         :label="isAuthenticated ? 'Выйти' : 'Войти'"
         :icon="isAuthenticated ? 'lucide:log-out' : 'lucide:log-in'"
         :color="isAuthenticated ? 'error' : 'secondary'"

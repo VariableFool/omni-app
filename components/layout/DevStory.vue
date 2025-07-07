@@ -20,6 +20,12 @@ const tabsItems = ref<TabsItem[]>([
 
 const historyItems = ref<TimelineItem[]>([
   {
+    date: 'Скоро',
+    title: 'Раздел с ИИ',
+    description: 'В разработке — мини-чат с ИИ, которым можно будет пользоваться бесплатно.',
+    icon: 'lucide:bot-message-square',
+  },
+  {
     date: '6 июля 2025',
     title: 'Рефакторинг раздела «Соцсеть»',
     description:
@@ -67,7 +73,7 @@ const active = ref(historyItems.value.length - 2);
 
 onMounted(() => {
   setInterval(() => {
-    const len = historyItems.value.length;
+    const len = historyItems.value.length - 1;
     if (len < 2) return;
 
     const lastTwo = [len - 2, len - 1];

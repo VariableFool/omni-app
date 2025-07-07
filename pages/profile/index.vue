@@ -6,15 +6,9 @@ definePageMeta({
 });
 
 const auth = useAuthStore();
-const { user } = storeToRefs(auth);
+const { user, originalUser } = storeToRefs(auth);
 
 useHead({ title: `• ${user.value?.nickname || user.value?.email || 'Профиль'}` });
-
-const {
-  data: originalUser,
-  error,
-  pending,
-} = await useAsyncData('user-status', async () => await auth.fetchUser());
 
 const disabled = computed(() => {
   const u = JSON.stringify({ ...auth.user });
@@ -42,13 +36,10 @@ async function saveChanges(userData: UserData) {
 </script>
 
 <template>
-  <div class="absolute top-1/2 left-1/2 -translate-1/2">
-    <LoadingSpinner v-if="pending" />
-  </div>
   <AuthGate>
     <div class="w-full sm:py-4 sm:flex sm:justify-center">
       <UserCard
-        v-if="auth.user && !pending"
+        v-if="auth.user"
         v-model="auth.user"
         :disabled="disabled"
         :pending="isLoading"

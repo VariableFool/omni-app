@@ -15,6 +15,7 @@ export const useAuthStore = defineStore('authStore', () => {
   });
 
   const user = ref<LoginResponse['user'] | null>(null);
+  const originalUser = ref<LoginResponse['user'] | null>(null);
 
   const error = ref('');
 
@@ -24,7 +25,7 @@ export const useAuthStore = defineStore('authStore', () => {
     }
 
     try {
-      const { user: originalUser } = await $fetch<LoginResponse>('/auth/status', {
+      const { user: resUser } = await $fetch<LoginResponse>('/auth/status', {
         method: 'GET',
         baseURL: apiUrl,
         headers: {
@@ -32,8 +33,9 @@ export const useAuthStore = defineStore('authStore', () => {
         },
       });
 
-      user.value = { ...originalUser };
-      return originalUser;
+      originalUser.value = { ...resUser };
+      user.value = { ...resUser };
+      return resUser;
     } catch (err: any) {
       if (err.data.status === 'deleteToken') {
         token.value = null;
@@ -149,6 +151,7 @@ export const useAuthStore = defineStore('authStore', () => {
     devMode,
     isAuthenticated,
     error,
+    originalUser,
     user,
     token,
     apiUrl,
