@@ -1,4 +1,7 @@
 <script setup lang="ts">
+const postStore = usePostStore();
+const { posts } = storeToRefs(postStore);
+
 const categories = [
   'Политика',
   'Игры',
@@ -11,6 +14,12 @@ const categories = [
   'Экономика',
   'Мода',
 ];
+
+onMounted(async () => {
+  if (posts.value.length === 0) {
+    await postStore.fetchPosts();
+  }
+});
 </script>
 
 <template>
@@ -37,13 +46,32 @@ const categories = [
       :ui="{
         root: 'w-full flex-1 lg:max-w-2xl rounded-none lg:rounded-lg lg:ring-1 lg:ring-gray-300 lg:dark:ring-gray-800 text-sky-500',
         header: 'font-bold lg:text-xl hidden lg:flex',
+        body: 'p-0 sm:p-0',
       }"
     >
       <template #header>
         <h1>Посты</h1>
       </template>
-      <p></p>
+
       <SocialSendMessage />
+
+      <div v-if="posts.length === 0" class="flex flex-col">
+        <div
+          v-for="n in 5"
+          :key="n"
+          class="flex gap-3 p-4 border-t border-gray-200 dark:border-gray-700 animate-pulse"
+        >
+          <div class="w-10 h-10 bg-gray-200 dark:bg-gray-700 rounded-full"></div>
+          <div class="flex-1 space-y-2">
+            <div class="w-2/4 h-6 bg-gray-200 dark:bg-gray-700 rounded"></div>
+            <div class="h-15 bg-gray-200 dark:bg-gray-700 rounded"></div>
+          </div>
+        </div>
+      </div>
+
+      <div v-else class="flex flex-col">
+        <SocialPost v-for="post in posts" :key="post.id" :post="post" />
+      </div>
     </UCard>
   </div>
 </template>
