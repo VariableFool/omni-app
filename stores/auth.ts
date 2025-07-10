@@ -5,8 +5,8 @@ import type { LoginResponse, UserData } from '~/types';
 export const useAuthStore = defineStore('authStore', () => {
   const devMode = ref(true);
 
-  //const apiUrl = 'https://omni-api.gghub.ru/';
-  const apiUrl = 'http://localhost:4000/';
+  const apiUrl = 'https://omni-api.gghub.ru/';
+  //const apiUrl = 'http://localhost:4000/';
   const token = useCookie('token', {
     maxAge: 60 * 60 * 24 * 7,
   });

@@ -20,8 +20,8 @@ export interface Post {
 export const usePostStore = defineStore('post', () => {
   const posts = ref<Post[]>([]);
 
-  //const apiUrl = 'https://omni-api.gghub.ru/';
-  const apiUrl = 'http://localhost:4000/';
+  const apiUrl = 'https://omni-api.gghub.ru/';
+  //const apiUrl = 'http://localhost:4000/';
 
   async function fetchPosts() {
     try {
