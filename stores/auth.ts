@@ -1,11 +1,12 @@
+import { th } from '@nuxt/ui/runtime/locale/index.js';
 import { defineStore } from 'pinia';
 import type { LoginResponse, UserData } from '~/types';
 
 export const useAuthStore = defineStore('authStore', () => {
   const devMode = ref(true);
 
-  const apiUrl = 'https://omni-api.gghub.ru/';
-  //const apiUrl = 'http://localhost:4000/';
+  //const apiUrl = 'https://omni-api.gghub.ru/';
+  const apiUrl = 'http://localhost:4000/';
   const token = useCookie('token', {
     maxAge: 60 * 60 * 24 * 7,
   });
@@ -67,30 +68,29 @@ export const useAuthStore = defineStore('authStore', () => {
         body: userData,
       });
 
-      user.value = response.user;
       token.value = response.token;
+      if (token.value) {
+        await fetchUser();
+      }
     } catch (err) {
-      console.error(err);
       throw Error('Не удалось войти');
     }
   }
 
   async function register(userData: { email: string; password: string }) {
-    error.value = '';
-
     if (!userData.email || !userData.password) {
-      return (error.value = 'Email или пароль не могут быть пустыми');
+      throw Error('Email или пароль не могут быть пустыми');
     }
 
     if (userData.email) {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(userData.email)) {
-        return (error.value = 'Это не похоже на настоящий email');
+        throw Error('Это не похоже на настоящий email');
       }
     }
 
-    if (userData.password.length <= 3) {
-      return (error.value = 'Пароль должен быть больше 6 символов');
+    if (userData.password.length < 6) {
+      throw Error('Пароль должен быть больше 6 символов');
     }
 
     try {
@@ -98,18 +98,20 @@ export const useAuthStore = defineStore('authStore', () => {
         method: 'POST',
         baseURL: apiUrl,
         body: userData,
+        onResponse({ response }) {
+          if (response.status !== 201) {
+            throw Error(response._data.error);
+          }
+        },
       });
-
-      user.value = response.user;
 
       token.value = response.token;
 
-      navigateTo('/profile');
-    } catch (err: any) {
-      if (err.response) {
-        return (error.value = err.response._data.error);
+      if (token.value) {
+        await fetchUser();
       }
-      error.value = 'Не удалось зарегистрироваться';
+    } catch (err) {
+      throw err;
     }
   }
 
@@ -144,7 +146,10 @@ export const useAuthStore = defineStore('authStore', () => {
   async function logout() {
     token.value = null;
     user.value = null;
-    await navigateTo('/');
+    const route = useRoute();
+    if (route.path === '/profile') {
+      await navigateTo('/social');
+    }
   }
 
   return {

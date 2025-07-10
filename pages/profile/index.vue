@@ -11,7 +11,7 @@ const { user, originalUser } = storeToRefs(auth);
 useHead({ title: `• ${user.value?.nickname || user.value?.email || 'Профиль'}` });
 
 const disabled = computed(() => {
-  const u = JSON.stringify({ ...auth.user });
+  const u = JSON.stringify({ ...user.value });
   const o = JSON.stringify({ ...originalUser.value });
 
   return u === o;
@@ -44,6 +44,7 @@ async function saveChanges(userData: UserData) {
         :disabled="disabled"
         :pending="isLoading"
         :save-changes="saveChanges"
+        :logout="auth.logout"
       />
     </div>
   </AuthGate>

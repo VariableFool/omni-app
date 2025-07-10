@@ -5,6 +5,7 @@ const props = defineProps<{
   disabled: boolean;
   pending: boolean;
   saveChanges: (args?: any) => void;
+  logout: () => void;
 }>();
 
 const user = defineModel<LoginResponse['user']>();
@@ -70,7 +71,7 @@ function save() {
           color="primary"
           label="Сохранить изменения"
         />
-        <UButton variant="outline" color="error" label="Выйти" />
+        <UButton @click="logout" variant="outline" color="error" label="Выйти" />
       </template>
     </UCard>
   </div>

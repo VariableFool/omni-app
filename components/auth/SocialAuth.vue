@@ -4,8 +4,18 @@ import type { AuthUserData } from '~/types';
 const auth = useAuthStore();
 
 const show = ref(false);
+const regShow = ref(false);
+
 const email = ref('');
+const isEmailValid = computed(() => {
+  const value = email.value.trim();
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(value);
+});
+
 const password = ref('');
+const nickname = ref('');
+const specialty = ref('');
 
 const isLoading = ref(false);
 const error = ref('');
@@ -22,6 +32,31 @@ async function login() {
     await auth.login(userData);
   } catch (err: any) {
     error.value = err.message;
+  } finally {
+    isLoading.value = false;
+  }
+}
+
+async function register() {
+  error.value = '';
+  const userData: AuthUserData = {
+    email: email.value,
+    password: password.value,
+    nickname: nickname.value,
+    specialty: specialty.value,
+  };
+
+  try {
+    isLoading.value = true;
+    await auth.register(userData);
+
+    email.value = '';
+    password.value = '';
+    nickname.value = '';
+    specialty.value = '';
+  } catch (err: any) {
+    console.error(err);
+    error.value = err.message || 'Не удалось зарегистрироваться';
   } finally {
     isLoading.value = false;
   }
@@ -80,12 +115,147 @@ async function login() {
         <Button label="Войти" :click="login" color="secondary" :loading="isLoading" />
         <USeparator label="ИЛИ" :ui="{ border: 'border-gray-400', label: 'text-muted' }" />
         <div class="text-center font-bold"><span>Еще не зарегистрированы?</span></div>
-        <Button
-          label="Зарегистрироваться"
-          :click="() => console.log('da')"
-          variant="outline"
-          color="secondary"
-        />
+        <UModal
+          title="РЕГИСТРАЦИЯ"
+          description="Создайте аккаунт, чтобы начать использовать все возможности приложения."
+          :ui="{
+            footer: 'flex flex-col gap-4',
+          }"
+        >
+          <UButton
+            @click="error = ''"
+            label="Зарегестрироваться"
+            variant="outline"
+            color="secondary"
+            class="rounded-full flex items-center justify-center"
+            size="xl"
+          />
+
+          <template #body>
+            <div class="flex flex-col gap-4 max-w-sm mx-auto">
+              <div class="flex flex-col gap-1">
+                <UInput
+                  trailing-icon="lucide:at-sign"
+                  placeholder="Email"
+                  size="xl"
+                  v-model="email"
+                  :color="isEmailValid ? 'secondary' : 'error'"
+                  type="email"
+                  name="email"
+                  autocomplete="on"
+                />
+                <div class="flex items-center gap-1 text-muted">
+                  <UIcon
+                    :name="isEmailValid ? 'lucide:circle-check' : 'lucide:circle-x'"
+                    class="size-4"
+                    :class="isEmailValid ? 'text-success' : 'text-error'"
+                  />
+                  <span class="text-sm" :class="isEmailValid ? 'text-success' : 'text-error'"
+                    >email@example.com</span
+                  >
+                </div>
+              </div>
+
+              <div class="flex flex-col gap-1 mb-4">
+                <UInput
+                  v-model="password"
+                  placeholder="Пароль"
+                  size="xl"
+                  maxlength="64"
+                  :color="password.length < 6 ? 'error' : 'secondary'"
+                  :type="regShow ? 'text' : 'password'"
+                  :ui="{ trailing: 'pe-1' }"
+                >
+                  <template #trailing>
+                    <UButton
+                      color="neutral"
+                      variant="link"
+                      size="xl"
+                      :icon="regShow ? 'i-lucide-eye-off' : 'i-lucide-eye'"
+                      :aria-label="regShow ? 'Hide password' : 'Show password'"
+                      :aria-pressed="regShow"
+                      aria-controls="password"
+                      @click="regShow = !regShow"
+                    />
+                  </template>
+                </UInput>
+                <div class="flex items-center gap-1 text-muted">
+                  <UIcon
+                    :name="password.length >= 6 ? 'lucide:circle-check' : 'lucide:circle-x'"
+                    class="size-4"
+                    :class="password.length >= 6 ? 'text-success' : 'text-error'"
+                  />
+                  <span
+                    class="text-sm"
+                    :class="password.length >= 6 ? 'text-success' : 'text-error'"
+                    >Не менее 6 символов</span
+                  >
+                </div>
+              </div>
+
+              <div class="flex flex-col gap-2">
+                <span class="text-sm text-muted"
+                  >Необязательно — можно изменить позже в профиле.</span
+                >
+                <UInput
+                  maxlength="20"
+                  placeholder="Никнейм"
+                  size="xl"
+                  v-model="nickname"
+                  :color="nickname.length < 3 ? 'error' : 'secondary'"
+                  type="name"
+                  name="name"
+                  autocomplete="on"
+                >
+                  <template #trailing>
+                    <div
+                      id="character-count"
+                      class="text-xs text-muted tabular-nums"
+                      aria-live="polite"
+                      role="status"
+                    >
+                      {{ nickname?.length }}/{{ 20 }}
+                    </div>
+                  </template>
+                </UInput>
+
+                <UInput
+                  placeholder="Специальность"
+                  size="xl"
+                  v-model="specialty"
+                  :color="specialty.length < 3 ? 'error' : 'secondary'"
+                  maxlength="20"
+                >
+                  <template #trailing>
+                    <div
+                      id="character-count"
+                      class="text-xs text-muted tabular-nums"
+                      aria-live="polite"
+                      role="status"
+                    >
+                      {{ specialty?.length }}/{{ 20 }}
+                    </div>
+                  </template>
+                </UInput>
+              </div>
+            </div>
+          </template>
+
+          <template #footer>
+            <span v-if="error" class="text-error">{{ error }}</span>
+            <UButton
+              :disabled="!email || !password || password.length < 6"
+              :loading="isLoading"
+              label="Зарегистрироваться"
+              variant="solid"
+              color="secondary"
+              class="rounded-full flex items-center justify-center"
+              size="xl"
+              @click="register"
+              :ui="{ base: 'px-8' }"
+            />
+          </template>
+        </UModal>
       </div>
     </div>
   </div>
