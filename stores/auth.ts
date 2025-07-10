@@ -135,9 +135,7 @@ export const useAuthStore = defineStore('authStore', () => {
         body: userData,
       });
 
-      if (res.status === 200) {
-        await fetchUser();
-      }
+      await fetchUser();
       return res.message || 'Пользователь успешно обновлен';
     } catch (err) {
       throw err;

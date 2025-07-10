@@ -4,6 +4,7 @@ import type { LoginResponse } from '~/types';
 const props = defineProps<{
   disabled: boolean;
   pending: boolean;
+  success: string | null;
   error: string | null;
   saveChanges: (args?: any) => void;
   logout: () => void;
@@ -64,7 +65,8 @@ function save() {
       </div>
 
       <template #footer>
-        <span v-if="props.error">{{ props.error }}</span>
+        <span v-if="props.success" class="text-sm text-success">{{ props.success }}</span>
+        <span v-if="props.error" class="text-sm text-error">{{ props.error }}</span>
         <UButton
           :disabled="disabled"
           :loading="pending"

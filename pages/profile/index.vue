@@ -7,7 +7,10 @@ definePageMeta({
 
 const auth = useAuthStore();
 const { user, originalUser } = storeToRefs(auth);
-const error = ref('');
+const message = reactive({
+  success: '',
+  error: '',
+});
 
 useHead({ title: `• ${user.value?.nickname || user.value?.email || 'Профиль'}` });
 
@@ -21,7 +24,8 @@ const disabled = computed(() => {
 const isLoading = ref(false);
 
 async function saveChanges(userData: UserData) {
-  error.value = '';
+  message.error = '';
+  message.success = '';
 
   (['nickname', 'birthDate', 'specialty', 'status'] as (keyof UserData)[]).forEach((key) => {
     if (userData[key] === originalUser.value?.[key]) {
@@ -33,9 +37,10 @@ async function saveChanges(userData: UserData) {
 
   try {
     isLoading.value = true;
-    await auth.updateUser(cleanedData);
+    const res = await auth.updateUser(cleanedData);
+    message.success = res.message || 'Профиль успешно обновлен';
   } catch (err: any) {
-    error.value = err.message || 'Не удалось обновить профиль';
+    message.error = err.message || 'Не удалось обновить профиль';
   } finally {
     isLoading.value = false;
   }
@@ -50,7 +55,8 @@ async function saveChanges(userData: UserData) {
         v-model="auth.user"
         :disabled="disabled"
         :pending="isLoading"
-        :error="error"
+        :success="message.success"
+        :error="message.error"
         :save-changes="saveChanges"
         :logout="auth.logout"
       />
