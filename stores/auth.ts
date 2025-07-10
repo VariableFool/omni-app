@@ -125,7 +125,7 @@ export const useAuthStore = defineStore('authStore', () => {
     }
 
     try {
-      const res = await $fetch<LoginResponse['user']>('/auth/update', {
+      const res = await $fetch<any>('/auth/update', {
         method: 'PATCH',
         baseURL: apiUrl,
         headers: {
@@ -135,11 +135,12 @@ export const useAuthStore = defineStore('authStore', () => {
         body: userData,
       });
 
-      user.value = res;
-      return res;
-    } catch (error) {
-      console.error('Fetch error:', error);
-      return error;
+      if (res.status === 200) {
+        await fetchUser();
+      }
+      return res.message || 'Пользователь успешно обновлен';
+    } catch (err) {
+      throw err;
     }
   }
 

@@ -7,6 +7,7 @@ definePageMeta({
 
 const auth = useAuthStore();
 const { user, originalUser } = storeToRefs(auth);
+const error = ref('');
 
 useHead({ title: `• ${user.value?.nickname || user.value?.email || 'Профиль'}` });
 
@@ -20,6 +21,8 @@ const disabled = computed(() => {
 const isLoading = ref(false);
 
 async function saveChanges(userData: UserData) {
+  error.value = '';
+
   (['nickname', 'birthDate', 'specialty', 'status'] as (keyof UserData)[]).forEach((key) => {
     if (userData[key] === originalUser.value?.[key]) {
       delete userData[key];
@@ -28,10 +31,13 @@ async function saveChanges(userData: UserData) {
 
   const cleanedData = { ...userData };
 
-  isLoading.value = true;
-  await auth.updateUser(cleanedData);
-  originalUser.value = auth.user;
-  isLoading.value = false;
+  try {
+    isLoading.value = true;
+    await auth.updateUser(cleanedData);
+  } catch (err) {
+  } finally {
+    isLoading.value = false;
+  }
 }
 </script>
 
@@ -43,6 +49,7 @@ async function saveChanges(userData: UserData) {
         v-model="auth.user"
         :disabled="disabled"
         :pending="isLoading"
+        :error="error"
         :save-changes="saveChanges"
         :logout="auth.logout"
       />
