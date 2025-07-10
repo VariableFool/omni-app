@@ -34,7 +34,8 @@ async function saveChanges(userData: UserData) {
   try {
     isLoading.value = true;
     await auth.updateUser(cleanedData);
-  } catch (err) {
+  } catch (err: any) {
+    error.value = err.message || 'Не удалось обновить профиль';
   } finally {
     isLoading.value = false;
   }
