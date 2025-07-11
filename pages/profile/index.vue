@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { set } from '@nuxt/ui/runtime/utils/index.js';
 import type { UserData } from '~/types';
 
 definePageMeta({
@@ -49,9 +50,10 @@ async function saveChanges(userData: UserData) {
   try {
     isLoading.value = true;
     const res = await auth.updateUser(cleanedData);
-    message.success = res.message || 'Профиль успешно обновлен';
+    showToast(res);
   } catch (err: any) {
-    message.error = err.message || 'Не удалось обновить профиль';
+    console.error(err);
+    message.error = 'Не удалось обновить профиль';
   } finally {
     isLoading.value = false;
   }
@@ -61,6 +63,14 @@ const changePasswordModal = ref(false);
 
 async function openChangePasswordModal() {
   changePasswordModal.value = !changePasswordModal.value;
+}
+
+const toast = useToast();
+
+function showToast(message: string) {
+  toast.add({
+    title: message,
+  });
 }
 
 async function savePassword() {
@@ -81,16 +91,15 @@ async function savePassword() {
     isLoading.value = true;
     const res = await auth.changePassword(newPassword.value, oldPassword.value);
     passChangeMessage.success = res || 'Пароль успешно изменен';
-    setTimeout(() => {
-      changePasswordModal.value = false;
-      oldPassword.value = '';
-      newPassword.value = '';
-      newPasswordConfirm.value = '';
-      passChangeMessage.success = '';
-      passChangeMessage.error = '';
-    }, 1000);
+    showToast(res);
+    changePasswordModal.value = false;
+    oldPassword.value = '';
+    newPassword.value = '';
+    newPasswordConfirm.value = '';
+    passChangeMessage.success = '';
+    passChangeMessage.error = '';
   } catch (err: any) {
-    passChangeMessage.error = err.message || 'Не удалось изменить пароль';
+    passChangeMessage.error = err || 'Не удалось изменить пароль';
   } finally {
     isLoading.value = false;
   }

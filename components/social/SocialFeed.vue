@@ -69,7 +69,7 @@ onMounted(async () => {
         </div>
       </div>
 
-      <div v-else class="flex flex-col">
+      <div v-else class="flex flex-col mb-[63px] lg:mb-0">
         <SocialPost v-for="post in posts" :key="post.id" :post="post" />
       </div>
     </UCard>

@@ -8,11 +8,39 @@ const date = computed(() => {
 </script>
 
 <template>
-  <div class="flex first:border-b-0 p-4 border-y border-gray-200 dark:border-gray-800">
+  <div class="flex first:border-b-0 p-4 border-y border-gray-200 dark:border-gray-800 h-">
     <UAvatar :alt="String(props.post.author.id)" size="xl" />
     <div class="w-full flex flex-col ml-3 text-black dark:text-white">
       <div class="flex items-center gap-2">
-        <p class="font-bold">{{ post.author.nickname || post.author.email }}</p>
+        <UPopover
+          mode="hover"
+          :open-delay="500"
+          :close-delay="300"
+          :ui="{
+            content:
+              'w-64 p-4 dark:bg-gray-950 flex flex-col gap-4 rounded-3xl ring-0 shadow-[0_0_10px_black] dark:shadow-[0_0_10px_gray]',
+          }"
+        >
+          <p class="font-bold cursor-pointer hover:underline">
+            {{ post.author.nickname || post.author.email }}
+          </p>
+
+          <template #content>
+            <div class="flex justify-between items-center">
+              <UAvatar :alt="String(post.author.id)" class="size-16" :ui="{ root: 'text-3xl' }" />
+              <UButton label="Подписаться" color="neutral" :ui="{ base: 'rounded-full text-md' }" />
+            </div>
+            <div class="flex flex-col">
+              <span class="font-bold text-xl">{{ post.author.nickname || post.author.email }}</span>
+              <span class="text-muted text-sm">{{ post.author.specialty }}</span>
+              <span>Статус: {{ post.author.status }}</span>
+            </div>
+            <div class="flex justify-between text-sm text-gray-500">
+              <span>Подписки</span>
+              <span>Подписчики</span>
+            </div>
+          </template>
+        </UPopover>
         <span class="text-gray-500 text-sm">•</span>
         <span class="text-gray-500 text-sm">{{ date }}</span>
       </div>

@@ -165,6 +165,11 @@ export const useAuthStore = defineStore('authStore', () => {
           'Content-Type': 'application/json',
         },
         body: { newPassword, oldPassword },
+        onResponse({ response }) {
+          if (response.status !== 200) {
+            throw Error(response._data.error);
+          }
+        },
       });
 
       return res.message || 'Пароль успешно изменен';
