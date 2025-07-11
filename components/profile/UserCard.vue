@@ -8,6 +8,7 @@ const props = defineProps<{
   error: string | null;
   saveChanges: (args?: any) => void;
   logout: () => void;
+  changePassword: () => void;
 }>();
 
 const user = defineModel<LoginResponse['user']>();
@@ -35,7 +36,7 @@ function save() {
         root: 'rounded-none sm:rounded-xl sm:dark:bg-gray-900/80',
         header: 'flex gap-4',
         body: 'flex-1',
-        footer: 'flex justify-end gap-4',
+        footer: 'flex flex-wrap justify-end items-center gap-4',
       }"
     >
       <template #header>
@@ -73,8 +74,9 @@ function save() {
           @click="save"
           variant="outline"
           color="primary"
-          label="Сохранить изменения"
+          label="Сохранить"
         />
+        <UButton label="Сменить пароль" variant="outline" color="warning" @click="changePassword" />
         <UButton @click="logout" variant="outline" color="error" label="Выйти" />
       </template>
     </UCard>

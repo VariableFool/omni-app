@@ -7,7 +7,12 @@ definePageMeta({
 
 const auth = useAuthStore();
 const { user, originalUser } = storeToRefs(auth);
+
 const message = reactive({
+  success: '',
+  error: '',
+});
+const passChangeMessage = reactive({
   success: '',
   error: '',
 });
@@ -22,6 +27,12 @@ const disabled = computed(() => {
 });
 
 const isLoading = ref(false);
+const show = ref(false);
+const newPasswordShow = ref(false);
+
+const oldPassword = ref('');
+const newPassword = ref('');
+const newPasswordConfirm = ref('');
 
 async function saveChanges(userData: UserData) {
   message.error = '';
@@ -45,6 +56,45 @@ async function saveChanges(userData: UserData) {
     isLoading.value = false;
   }
 }
+
+const changePasswordModal = ref(false);
+
+async function openChangePasswordModal() {
+  changePasswordModal.value = !changePasswordModal.value;
+}
+
+async function savePassword() {
+  passChangeMessage.error = '';
+  passChangeMessage.success = '';
+
+  if (!oldPassword.value || !newPassword.value || !newPasswordConfirm.value) {
+    passChangeMessage.error = 'Пожалуйста, заполните все поля';
+    return;
+  }
+
+  if (newPassword.value !== newPasswordConfirm.value) {
+    passChangeMessage.error = 'Новые пароли не совпадают';
+    return;
+  }
+
+  try {
+    isLoading.value = true;
+    const res = await auth.changePassword(newPassword.value, oldPassword.value);
+    passChangeMessage.success = res || 'Пароль успешно изменен';
+    setTimeout(() => {
+      changePasswordModal.value = false;
+      oldPassword.value = '';
+      newPassword.value = '';
+      newPasswordConfirm.value = '';
+      passChangeMessage.success = '';
+      passChangeMessage.error = '';
+    }, 1000);
+  } catch (err: any) {
+    passChangeMessage.error = err.message || 'Не удалось изменить пароль';
+  } finally {
+    isLoading.value = false;
+  }
+}
 </script>
 
 <template>
@@ -59,7 +109,98 @@ async function saveChanges(userData: UserData) {
         :error="message.error"
         :save-changes="saveChanges"
         :logout="auth.logout"
+        :change-password="openChangePasswordModal"
       />
+      <UModal
+        title="Смена пароля"
+        description="Придумайте сложный пароль"
+        class="w-xs"
+        v-model:open="changePasswordModal"
+        :ui="{ body: 'flex flex-col gap-4', footer: 'flex justify-end gap-4' }"
+      >
+        <template #body>
+          <div class="flex flex-col gap-1 text-sm">
+            <span>Старый пароль: </span>
+            <UInput v-model="oldPassword" color="secondary" :type="show ? 'text' : 'password'">
+              <template #trailing>
+                <UButton
+                  variant="link"
+                  class="!p-0 text-muted"
+                  :icon="show ? 'lucide:eye-off' : 'lucide:eye'"
+                  color="secondary"
+                  @click="show = !show"
+                />
+              </template>
+            </UInput>
+          </div>
+          <div class="flex flex-col gap-1 text-sm">
+            <span>Новый пароль: </span>
+            <UInput
+              v-model="newPassword"
+              color="secondary"
+              :type="newPasswordShow ? 'text' : 'password'"
+              autocomplete="new-password"
+            >
+              <template #trailing>
+                <UButton
+                  variant="link"
+                  class="!p-0 text-muted"
+                  :icon="newPasswordShow ? 'lucide:eye-off' : 'lucide:eye'"
+                  color="secondary"
+                  @click="newPasswordShow = !newPasswordShow"
+                />
+              </template>
+            </UInput>
+            <div
+              class="flex items-center gap-1 text-sm"
+              :class="newPassword.length > 5 ? 'text-success' : 'text-error'"
+            >
+              <UIcon :name="newPassword.length > 5 ? 'lucide:circle-check' : 'lucide:circle-x'" />
+              <span>Не менее 6 символов</span>
+            </div>
+          </div>
+          <div class="flex flex-col gap-1 text-sm">
+            <span>Подтвердите новый пароль: </span>
+            <UInput
+              v-model="newPasswordConfirm"
+              color="secondary"
+              :type="newPasswordShow ? 'text' : 'password'"
+            >
+              <template #trailing>
+                <UButton
+                  variant="link"
+                  class="!p-0 text-muted"
+                  :icon="newPasswordShow ? 'lucide:eye-off' : 'lucide:eye'"
+                  color="secondary"
+                  @click="newPasswordShow = !newPasswordShow"
+                />
+              </template>
+            </UInput>
+          </div>
+          <span class="text-center text-success" v-if="passChangeMessage.success">
+            {{ passChangeMessage.success }}
+          </span>
+          <span class="text-center text-error" v-if="passChangeMessage.error">
+            {{ passChangeMessage.error }}
+          </span>
+        </template>
+
+        <template #footer>
+          <UButton label="Сохранить" variant="outline" :loading="isLoading" @click="savePassword" />
+          <UButton
+            label="Отмена"
+            variant="outline"
+            color="error"
+            @click="
+              changePasswordModal = false;
+              passChangeMessage.error = '';
+              oldPassword = '';
+              newPassword = '';
+              newPasswordConfirm = '';
+            "
+          />
+        </template>
+      </UModal>
     </div>
   </AuthGate>
 </template>

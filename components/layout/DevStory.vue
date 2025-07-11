@@ -34,6 +34,13 @@ const historyItems = ref<TimelineItem[]>([
     ui: activeTask,
   },
   {
+    date: '11 июля 2025',
+    title: 'Смена пароля',
+    description:
+      'Добавлена возможность смены пароля в профиле с проверкой старого пароля и валидацией новых данных.',
+    icon: 'lucide:key-square',
+  },
+  {
     date: '10 июля 2025',
     title: 'Продолжение разработки раздела «Соцсеть»',
     description:

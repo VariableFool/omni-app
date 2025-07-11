@@ -151,6 +151,28 @@ export const useAuthStore = defineStore('authStore', () => {
     }
   }
 
+  async function changePassword(newPassword: string, oldPassword: string) {
+    if (!token.value) {
+      throw Error('Токен отсутствует');
+    }
+
+    try {
+      const res = await $fetch<any>('/auth/update/password', {
+        method: 'PATCH',
+        baseURL: apiUrl,
+        headers: {
+          Authorization: `Bearer ${token.value}`,
+          'Content-Type': 'application/json',
+        },
+        body: { newPassword, oldPassword },
+      });
+
+      return res.message || 'Пароль успешно изменен';
+    } catch (err) {
+      throw err;
+    }
+  }
+
   return {
     devMode,
     isAuthenticated,
@@ -164,5 +186,6 @@ export const useAuthStore = defineStore('authStore', () => {
     register,
     updateUser,
     logout,
+    changePassword,
   };
 });
